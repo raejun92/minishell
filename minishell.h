@@ -6,7 +6,12 @@
 #include <sys/wait.h>
 
 // 렉서 타입 지정
-#define CMD 0
+#define CMD		0
+#define ARG		1
+#define OPT		2
+#define PIPE	3
+#define RED		4
+#define	DOLLAR	5
 
 typedef struct	s_lexer
 {
