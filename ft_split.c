@@ -2,11 +2,11 @@
 
 static	unsigned int	ft_isspace(char const c)
 {
-	if (c == '\t' || c == '\n' || c == '\v' ||\
+	if (c == '\t' || c == '\n' || c == '\v' || \
 		c == '\f' || c == '\r' || c == ' ')
-		return 1;
+		return (1);
 	else
-		return 0;
+		return (0);
 }
 
 static	unsigned int	ft_isincluded(char const *s)
@@ -26,7 +26,7 @@ static	unsigned int	ft_isincluded(char const *s)
 	return (count);
 }
 
-static	char			**ft_free(char ***result, unsigned int count)
+static	char	**ft_free(char ***result, unsigned int count)
 {
 	unsigned int	i;
 
@@ -39,7 +39,7 @@ static	char			**ft_free(char ***result, unsigned int count)
 	return (0);
 }
 
-char					*ft_substr(const char *s,\
+char	*ft_substr(const char *s, \
 		unsigned int start, size_t len)
 {
 	char			*result;
@@ -66,7 +66,7 @@ char					*ft_substr(const char *s,\
 	return (result);
 }
 
-char					**ft_split(char const *s)
+char	**ft_split(char const *s)
 {
 	char			**result;
 	unsigned int	i;
