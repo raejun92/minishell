@@ -2,12 +2,15 @@
 
 int	is_delimeter(char c)
 {
-	if (c == " " || c == "|" || c == ">" || c == "<")
+	if (c == " " || c == "|" )
 		return (1);
-	else
+	else if (c == ">" || c == "<")
 		return (0);
+	else
+		return (-1);
 }
-char	**ft_tokenizer(char *input)
+
+int	ft_tokenizer(char *input)
 {
 	int		i;
 	int		j;
@@ -16,11 +19,29 @@ char	**ft_tokenizer(char *input)
 	t_lexer	*curr;
 
 	i = -1;
+	j = 0;
 	is_single = 0;
 	is_double = 0;
 	curr = g_uni.lexer_list;
 	while (input[++i] != '\0')
 	{
+		if (is_single)
+		{
+			if (input[i] == "'")
+				is_single = 0;
+			//j부터 i까지 추가 -> j 업데이트
+		}
+		else if (is_double)
+		{
+			if (input[i] == '"')
+				is_double = 0;
+			//j부터 i까지 추가 -> j 업데이트
+
+		}
+		else
+		{
+
+		}
 		if (input[i] == "'" && !is_single && !is_double)
 			is_single = 1;
 		else if (input[i] == "'" && is_single && !is_double)
@@ -29,12 +50,19 @@ char	**ft_tokenizer(char *input)
 			is_double = 1;
 		else if (input[i] == '"' && !is_single && is_double)
 			is_double = 0;
-		else
+		else if (!is_single && !is_double)
 		{
+			if (is_delimeter(input[i]))
+			{
 
+			}
 		}
 	}
-	return ;
+	// 마지막 token 추가
+	if (is_single || is_double)
+		return (0);
+	else
+		return (1);
 }
 
 int	ft_lexer(char *input)
@@ -89,3 +117,4 @@ int	ft_lexer(char *input)
 	}
 	return (0);
 }
+
