@@ -24,7 +24,7 @@ int	main(int argc, char **argv, char **envp)
 		add_history(input); // 출력한 문자열을 저장하여 방향키 up, down으로 확인 가능
 		// 인풋 에러 체크
 		// 토크나이저, 렉서, 파서
-		ft_lexer(input);
+		//ft_lexer(input);
 
 		// 실행(fork)
 
