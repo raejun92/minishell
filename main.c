@@ -46,10 +46,11 @@ int	main(int argc, char **argv, char **envp)
 		// 인풋 에러 체크
 		// 토크나이저, 렉서, 파서
 		ft_lexer(input);
-
+		ft_parser();
+		view_parser_list();
 		// 실행(fork)
 		ft_reset_uni();
 		free(input);
 	}
-	return	(0);
+	return (0);
 }

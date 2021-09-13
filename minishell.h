@@ -42,11 +42,12 @@ typedef struct s_lexer
 // -> cat(cmd) -> <(red) stdin out
 typedef struct s_parser
 {
-	t_lexer		*lexer_list;
-	int			count;
-	int			pipe[2];
-	int			fd_in;
-	int			fd_out;
+	t_lexer *start;
+	t_lexer *end;
+	int				pipe[2];
+	int				fd_in;
+	int				fd_out;
+	struct s_parser	*next;
 }t_parser;
 
 typedef struct s_env
@@ -78,6 +79,10 @@ int		ft_tokenizer(char *input);
 
 /* ft_lexer.c */
 int		ft_lexer(char *input);
+
+/* ft_parser.c */
+void	ft_parser(void);
+void	view_parser_list();
 
 /* ft_split.c */
 char	**ft_split(char const *s);
