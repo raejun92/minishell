@@ -33,6 +33,7 @@ int	main(int argc, char **argv, char **envp)
 	char	*input;
 
 	ft_init_uni();
+	// 환경변수 저장
 	// 입력받은 명령어 실행
 	while (1)
 	{
@@ -43,14 +44,21 @@ int	main(int argc, char **argv, char **envp)
 		else
 			break ; // EOF 일때 탈출
 		add_history(input); // 출력한 문자열을 저장하여 방향키 up, down으로 확인 가능
-		// 인풋 에러 체크
-		// 토크나이저, 렉서, 파서
+		// syntax error check
 		ft_lexer(input);
 		ft_parser();
 		view_parser_list();
 		// 실행(fork)
+		// 환경변수 변환
+		// 절대경로/상대경로
+		// 파이프 마지막이 아니거나, 빌트인 명령어 -x > fork
+		// 파이프 마지막인데 빌트인 -> ?
+		// 파이프로 인풋 아웃풋 연결?
+
+		// 시그널 처리 -> 컨트롤 + 버튼 처리
 		ft_reset_uni();
 		free(input);
 	}
+	// 정리
 	return (0);
 }

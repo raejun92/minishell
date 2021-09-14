@@ -8,7 +8,7 @@ static int	get_pipe_count(void)
 
 	cnt = 0;
 	tmp = g_uni.lexer_list;
-	while (tmp != NULL)
+	while (tmp->next != NULL)
 	{
 		if (tmp->type == PIPE)
 			cnt++;
@@ -33,13 +33,16 @@ t_parser	*new_parser(t_parser *parser)
 
 void	add_parser(t_parser *parser)
 {
+	t_parser	*temp;
+
 	if (g_uni.parser_list == NULL)
 		g_uni.parser_list = parser;
 	else
 	{
-		while (g_uni.parser_list->next != NULL)
-			g_uni.parser_list = g_uni.parser_list->next;
-		g_uni.parser_list->next = parser;
+		temp = g_uni.parser_list;
+		while (temp->next != NULL)
+			temp = temp->next;
+		temp->next = parser;
 	}
 }
 
@@ -60,20 +63,20 @@ void	ft_parser(void)
 	int			i;
 
 	cur_lexer = g_uni.lexer_list;
-	i = -1;
+	i = 0;
 	parser_cnt = get_pipe_count() + 1;
-	while (++i < parser_cnt)
+	while (++i <= parser_cnt)
 	{
 		parser = new_parser(parser);
 		parser->start = cur_lexer;
 		if (i == parser_cnt)
-			while (cur_lexer != NULL)
+			while (cur_lexer->next->next != NULL)
 				cur_lexer = cur_lexer->next;
-		while (cur_lexer->type != PIPE)
+		while (cur_lexer->next->next != 0 && cur_lexer->next->type != PIPE)
 			cur_lexer = cur_lexer->next;
 		parser->end = cur_lexer;
 		if (i != parser_cnt)
-			cur_lexer = cur_lexer->next; // pipe위치에서 한 번 이동
+			cur_lexer = cur_lexer->next->next; // pipe위치에서 한 번 이동
 		parser->end->next = NULL; // lexer연결 끊기
 		add_parser(parser);
 	}
@@ -82,9 +85,19 @@ void	ft_parser(void)
 void	view_parser_list()
 {
 	t_parser *viewer = g_uni.parser_list;
+	t_lexer	*start;
+	t_lexer	*end;
 
-	while (viewer->next != NULL) {
-		printf("%s\n", viewer->start);
+	while (viewer != NULL) {
+		start = viewer->start;
+		end = viewer->end;
+		while (start != end)
+		{
+			printf("%s %d %d\n", start->str, start->type, start->quote);
+			start = start->next;
+		}
+		printf("%s %d %d\n", end->str, end->type, end->quote);
 		viewer = viewer->next;
+		printf("\n");
 	}
 }

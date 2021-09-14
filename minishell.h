@@ -24,6 +24,7 @@ typedef struct s_lexer
 	char				*str;
 	int					type;
 	int					quote;
+	int					connect;
 	struct s_lexer		*next;
 }t_lexer;
 
@@ -54,7 +55,6 @@ typedef struct s_env
 {
 	char			*key;
 	char			*val;
-	struct s_env	*prev;
 	struct s_env	*next;
 }t_env;
 typedef struct s_uni

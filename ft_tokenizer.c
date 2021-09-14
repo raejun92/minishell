@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	is_delimeter(char c)
+int	is_delimiter(char c)
 {
 	if (c == ' ' || c == '|' || c == '>' || c == '<')
 		return (1);
@@ -14,7 +14,7 @@ char	*ft_fill_str(char *s1, int start, int len, int quote)
 	unsigned int	i;
 	unsigned int	j;
 
-	result = malloc(sizeof(char) * (i + 1));
+	result = malloc(sizeof(char) * (len + 1));
 	if (result == 0)
 		return (0);
 	i = 0;
@@ -54,7 +54,7 @@ void	add_token(char *input, int start, int end, int quote)
 	curr->next->next = 0;
 }
 
-void	handle_delimeter(char *input, int *start, int *end, int *quote)
+void	handle_delimiter(char *input, int *start, int *end, int *quote)
 {
 	if (quote)
 		add_token(input, *start, *end, *quote);
@@ -92,11 +92,11 @@ int	ft_tokenizer(char *input)
 			quote = 1;
 		else if (!quote && input[i] == '"')
 			quote = 2;
-		else if (!quote && is_delimeter(input[i]))
-			handle_delimeter(input, &j, &i, 0);
+		else if (!quote && is_delimiter(input[i]))
+			handle_delimiter(input, &j, &i, 0);
 		else if (quote == 1 && input[i] == '\'' || \
 		quote == 2 && input[i] == '"')
-			handle_delimeter(input, &j, &i, &quote);
+			handle_delimiter(input, &j, &i, &quote);
 	}
 	if (j < i)
 		add_token(input, j, i - 1, 0);

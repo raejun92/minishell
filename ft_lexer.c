@@ -2,9 +2,9 @@
 
 int	ft_get_type(t_lexer *curr, int prev_type)
 {
-	if (curr->str[0] == '<' || curr->str[0] == '>')
+	if (curr->quote == 0 && (curr->str[0] == '<' || curr->str[0] == '>'))
 		return (RED);
-	else if (curr->str[0] == '|')
+	else if (curr->quote == 0 && curr->str[0] == '|')
 		return (PIPE);
 	else if (prev_type == PIPE)
 		return (CMD);
