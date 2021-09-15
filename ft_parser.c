@@ -8,7 +8,7 @@ static int	get_pipe_count(void)
 
 	cnt = 0;
 	tmp = g_uni.lexer_list;
-	while (tmp->next != NULL)
+	while (tmp != NULL)
 	{
 		if (tmp->type == PIPE)
 			cnt++;
@@ -63,6 +63,8 @@ void	ft_parser(void)
 	int			i;
 
 	cur_lexer = g_uni.lexer_list;
+	if (cur_lexer == 0)
+		return ;
 	i = 0;
 	parser_cnt = get_pipe_count() + 1;
 	while (++i <= parser_cnt)
@@ -70,9 +72,9 @@ void	ft_parser(void)
 		parser = new_parser(parser);
 		parser->start = cur_lexer;
 		if (i == parser_cnt)
-			while (cur_lexer->next->next != NULL)
+			while (cur_lexer->next != NULL)
 				cur_lexer = cur_lexer->next;
-		while (cur_lexer->next->next != 0 && cur_lexer->next->type != PIPE)
+		while (cur_lexer->next != 0 && cur_lexer->next->type != PIPE)
 			cur_lexer = cur_lexer->next;
 		parser->end = cur_lexer;
 		if (i != parser_cnt)
@@ -87,7 +89,6 @@ void	view_parser_list()
 	t_parser *viewer = g_uni.parser_list;
 	t_lexer	*start;
 	t_lexer	*end;
-
 	while (viewer != NULL) {
 		start = viewer->start;
 		end = viewer->end;

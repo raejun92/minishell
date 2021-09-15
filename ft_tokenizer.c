@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	is_delimiter(char c)
+static int	is_delimiter(char c)
 {
 	if (c == ' ' || c == '|' || c == '>' || c == '<')
 		return (1);
@@ -8,7 +8,7 @@ int	is_delimiter(char c)
 		return (0);
 }
 
-char	*ft_fill_str(char *s1, int start, int len, int quote)
+static char	*ft_fill_str(char *s1, int start, int len, int quote)
 {
 	char			*result;
 	unsigned int	i;
@@ -32,36 +32,42 @@ char	*ft_fill_str(char *s1, int start, int len, int quote)
 	return (result);
 }
 
-void	add_token(char *input, int start, int end, int quote)
+static void	add_token(char *input, int start, int end, int quote)
 {
 	t_lexer	*curr;
 	int		i;
 	int		j;
 	int		len;
 
-	if (quote == 0)
+	if (quote % 3 == 0)
 		len = end - start + 1;
 	else
 		len = end - start - 1;
-	curr = g_uni.lexer_list;
-	while (curr->next != 0)
-		curr = curr->next;
+	curr = new_lexer(1);
+	if (curr == 0)
+		return (ft_error());
 	curr->str = ft_fill_str(input, start, len, quote);
-	curr->quote = quote;
+	curr->quote = quote % 3;
+	if (quote == 0)
+		curr->connect = 0;
+	else
+		curr->connect = 1;
 	if (curr->str == 0)
 		return (ft_error());
-	curr->next = malloc(sizeof(t_lexer));
-	curr->next->next = 0;
 }
 
-void	handle_delimiter(char *input, int *start, int *end, int *quote)
+static void	handle_delimiter(char *input, int *start, int *end, int *quote)
 {
-	if (quote)
+	if (quote && *quote != 0)
 		add_token(input, *start, *end, *quote);
+	else if (quote && *start < *end)
+		add_token(input, *start, *end - 1, 3);
 	else
 	{
 		if (*start < *end)
 			add_token(input, *start, *end - 1, 0);
+		else if (!quote)
+			new_lexer(0);
 		*start = *end;
 		if (input[*end] == '|')
 			add_token(input, *start, *end, 0);
@@ -73,6 +79,8 @@ void	handle_delimiter(char *input, int *start, int *end, int *quote)
 		}
 	}
 	*start = (*end) + 1;
+	if (quote && *quote == 0)
+		*start -= 1;
 	if (quote)
 		*quote = 0;
 }
@@ -88,10 +96,14 @@ int	ft_tokenizer(char *input)
 	quote = 0;
 	while (input[++i] != '\0')
 	{
-		if (!quote && input[i] == '\'')
-			quote = 1;
-		else if (!quote && input[i] == '"')
-			quote = 2;
+		if ((!quote && input[i] == '\'') || (!quote && input[i] == '"'))
+		{
+			handle_delimiter(input, &j, &i, &quote);
+			if (input[i] == '\'')
+				quote = 1;
+			else
+				quote = 2;
+		}
 		else if (!quote && is_delimiter(input[i]))
 			handle_delimiter(input, &j, &i, 0);
 		else if (quote == 1 && input[i] == '\'' || \

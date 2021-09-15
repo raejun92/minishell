@@ -1,5 +1,33 @@
 #include "minishell.h"
 
+t_lexer	*new_lexer(int type)
+{
+	t_lexer	*prev;
+	t_lexer	*curr;
+
+	prev = 0;
+	curr = g_uni.lexer_list;
+	while (curr != 0)
+	{
+		prev = curr;
+		curr = curr->next;
+	}
+	if (type == 1)
+	{
+		curr = malloc(sizeof(t_lexer));
+		if (curr == 0)
+			return (0);
+		if (prev != 0)
+			prev->next = curr;
+		else
+			g_uni.lexer_list = curr;
+		curr->next = 0;
+	}
+	else
+		prev->connect = 0;
+	return (curr);
+}
+
 int	ft_get_type(t_lexer *curr, int prev_type)
 {
 	if (curr->quote == 0 && (curr->str[0] == '<' || curr->str[0] == '>'))
@@ -26,7 +54,7 @@ int	ft_lexer(char *input)
 	curr = g_uni.lexer_list;
 	prev_type = PIPE;
 	red = 0;
-	while (curr->next != 0)
+	while (curr != 0)
 	{
 		if (red)
 		{

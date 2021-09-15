@@ -74,15 +74,22 @@ t_uni	g_uni;
 /* main.c */
 void	ft_error(void);
 
+/* ft_syntax_checker.c */
+int		ft_syntax_checker(char *input);
+
 /* ft_tokenizer.c */
 int		ft_tokenizer(char *input);
 
 /* ft_lexer.c */
 int		ft_lexer(char *input);
+t_lexer	*new_lexer(int type);
 
 /* ft_parser.c */
 void	ft_parser(void);
 void	view_parser_list();
+
+/* ft_execute */
+void	ft_execute(void);
 
 /* ft_split.c */
 char	**ft_split(char const *s);
