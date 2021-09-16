@@ -25,16 +25,16 @@ static	int	ft_print_error(char *input, int idx, int type)
 	{
 		if (input[idx] == '<')
 		{
-			if (type == 2 && input[idx + 1] == '<')
+			if (input[idx + 1] == '<')
 				printf("bash: syntax error near unexpected token \'<<\'\n");
-			else if (type == 3)
+			else
 				printf("bash: syntax error near unexpected token \'<\'\n");
 		}
 		else if (input[idx] == '>')
 		{
-			if (type == 2 && input[idx + 1] == '>')
+			if (input[idx + 1] == '>')
 				printf("bash: syntax error near unexpected token \'>>\'\n");
-			else if (type == 3)
+			else
 				printf("bash: syntax error near unexpected token \'>\'\n");
 		}
 		else
