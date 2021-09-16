@@ -94,4 +94,11 @@ void	ft_execute(void);
 /* ft_split.c */
 char	**ft_split(char const *s);
 
+/* ft_utils.c */
+size_t	ft_strlen(const char *s);
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
+
+/* ft_env.c */
+void	save_env_variable(char **envp);
+
 #endif

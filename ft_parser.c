@@ -28,7 +28,7 @@ t_parser	*new_parser(t_parser *parser)
 	parser->next = NULL;
 	parser->pipe[0] = 0;
 	parser->pipe[1] = 0;
-	return parser;
+	return (parser);
 }
 
 void	add_parser(t_parser *parser)
