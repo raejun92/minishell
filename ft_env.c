@@ -50,3 +50,15 @@ void	save_env_variable(char **envp)
 		envp++;
 	}
 }
+
+void	print_envp(void)
+{
+	t_env *tmp;
+
+	tmp = g_uni.env_list;
+	while (tmp != 0)
+	{
+		printf("%s=%s", tmp->key, tmp->val);
+		tmp = tmp->next;
+	}
+}

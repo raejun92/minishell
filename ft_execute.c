@@ -8,6 +8,9 @@ void	ft_execute(void)
 
 	curr_parser = g_uni.parser_list;
 	prev_in = -1;
+	printf("%s\n", curr_parser->start->str);
+	if (ft_strcmp(curr_parser->start->str, "env"))
+			print_envp();
 	while (curr_parser->next != 0)
 	{
 		if (pipe(curr_parser->pipe) != 0)
@@ -23,6 +26,7 @@ void	ft_execute(void)
 				close(prev_in);
 			}
 			dup2(curr_parser->pipe[1], 1);
+		
 			// builtin check
 			// 아니면 execve로 실행
 			// status 처리 필요

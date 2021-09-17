@@ -57,6 +57,7 @@ typedef struct s_env
 	char			*val;
 	struct s_env	*next;
 }t_env;
+
 typedef struct s_uni
 {
 	t_lexer		*lexer_list;
@@ -97,8 +98,10 @@ char	**ft_split(char const *s);
 /* ft_utils.c */
 size_t	ft_strlen(const char *s);
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
+int		ft_strcmp(char *s1, char *s2);
 
 /* ft_env.c */
 void	save_env_variable(char **envp);
+void	print_envp(void);
 
 #endif
