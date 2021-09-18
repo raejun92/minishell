@@ -25,7 +25,9 @@ tgoto, tputs
 - bash: echo > $CCC(존재하지 않는 환경변수) -> bash: $CCC: ambiguous redirect
 
 # $?
+- 파이프 맨 마지막 리턴되는 숫자
 - 0 -> 잘 처리 됐을 때
 - 1 -> 커맨드 잘못된 옵션
 - 127 -> command not found
 - 258 -> syntax error
+- echo $USER$? -> choijunho1

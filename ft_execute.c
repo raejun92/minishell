@@ -10,7 +10,9 @@ void	ft_execute(void)
 	prev_in = -1;
 	printf("%s\n", curr_parser->start->str);
 	if (ft_strcmp(curr_parser->start->str, "env"))
-			print_envp();
+		print_envp();
+	else if (ft_strcmp(curr_parser->start->str, "pwd"))
+		print_pwd();
 	while (curr_parser->next != 0)
 	{
 		if (pipe(curr_parser->pipe) != 0)

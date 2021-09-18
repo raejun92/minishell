@@ -104,4 +104,7 @@ int		ft_strcmp(char *s1, char *s2);
 void	save_env_variable(char **envp);
 void	print_envp(void);
 
+/* ft_pwd.c */
+void	print_pwd(void);
+
 #endif
