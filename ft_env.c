@@ -1,11 +1,13 @@
 #include "minishell.h"
 
+// 기능: env 생성 및 초기화, 리턴: t_env
 t_env	*new_env(t_env *env)
 {
 	env = (t_env *)malloc(sizeof(t_env) * 1);
 	env->key = NULL;
 	env->val = NULL;
 	env->next = NULL;
+	env->check = 0;
 	return (env);
 }
 
@@ -23,20 +25,24 @@ t_env	*get_env(char *key)
 	return (0);
 }
 
-void	set_env(t_env *env, char *envp)
+// 기능: 환경변수의 key, value 저장, 리턴: void
+void	save_env_variable(t_env *env, char *envp)
 {
 	int	i;
 	int	tmp;
+	int	cnt;
 
 	i = 0;
 	tmp = 0;
+	cnt = 0;
 	while (envp[i] != '\0')
 	{
-		if (envp[i] == '=')
+		if (envp[i] == '=' && cnt == 0) // a=a=a에서 앞의 =에서 잘라주기 위해 cnt추가
 		{
 			env->key = (char *)malloc(sizeof(char) * (i + 1));
-			ft_strlcpy(env->key, envp, i+1);
+			ft_strlcpy(env->key, envp, i + 1);
 			tmp = i + 1;
+			cnt++;
 		}
 		i++;
 	}
@@ -44,14 +50,16 @@ void	set_env(t_env *env, char *envp)
 	ft_strlcpy(env->val, &envp[tmp], (i - tmp + 1));
 }
 
-void	save_env_variable(char **envp)
+// 기능: 환경변수를 받아와 env_list 구성, 리턴: void
+void	set_env(char **envp)
 {
 	t_env	*env;
 	t_env	*temp;
 
-	while (*envp != 0){
+	while (*envp != 0)
+	{
 		env = new_env(env);
-		set_env(env, *envp);
+		save_env_variable(env, *envp);
 		if (g_uni.env_list == NULL)
 			g_uni.env_list = env;
 		else
@@ -65,6 +73,7 @@ void	save_env_variable(char **envp)
 	}
 }
 
+// 기능: envp 출력, 리턴: void
 int	print_envp(void)
 {
 	t_env	*tmp;

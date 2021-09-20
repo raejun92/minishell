@@ -60,6 +60,7 @@ typedef struct s_env
 {
 	char			*key;
 	char			*val;
+	int				check;
 	struct s_env	*next;
 }t_env;
 
@@ -111,9 +112,9 @@ int			ft_is_builtin(t_parser *curr_parser);
 int			ft_execute_builtin(t_parser *curr_parser);
 
 /* ft_env.c */
-void		save_env_variable(char **envp);
 int			print_envp(void);
 t_env		*get_env(char *key);
+void		set_env(char **envp);
 
 /* ft_pwd.c */
 int			print_pwd(void);
@@ -133,5 +134,9 @@ size_t		ft_strlcpy(char *dst, const char *src, size_t dstsize);
 int			ft_strcmp(char *s1, char *s2);
 char		*ft_strjoin(char *s1, char *s2);
 void		ft_print_error(int fd, char *cmd, char *arg, char *msg);
+
+/* ft_export.c */
+void	export(t_parser *curr_parser);
+void	set_export();
 
 #endif

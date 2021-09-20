@@ -44,7 +44,8 @@ int	main(int argc, char **argv, char **envp)
 
 	ft_init_uni();
 	// 환경변수 저장
-	save_env_variable(envp);
+	set_env(envp);
+	// set_export();
 	// 입력받은 명령어 실행
 	while (1)
 	{

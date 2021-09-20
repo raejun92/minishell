@@ -31,3 +31,5 @@ tgoto, tputs
 - 127 -> command not found
 - 258 -> syntax error
 - echo $USER$? -> choijunho1
+- 131 -> signal 자식에서 실행되는 동안 컨트롤 + \
+- 130 -> signal 자식에서 실행되는 동안 컨트롤 + c
