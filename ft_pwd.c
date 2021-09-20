@@ -1,13 +1,14 @@
 #include "minishell.h"
 
-void	print_pwd(void)
+int	print_pwd(void)
 {
 	char	*path;
 
 	path = getcwd(NULL, 0);
 	if (!path)
-		return ;
+		return (0);
 	printf("%s\n", path);
 	free(path);
 	path = 0;
+	return (0);
 }

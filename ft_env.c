@@ -9,9 +9,23 @@ t_env	*new_env(t_env *env)
 	return (env);
 }
 
+t_env	*get_env(char *key)
+{
+	t_env	*curr;
+
+	curr = g_uni.env_list;
+	while (curr != 0)
+	{
+		if (ft_strcmp(curr->key, key))
+			return (curr);
+		curr = curr->next;
+	}
+	return (0);
+}
+
 void	set_env(t_env *env, char *envp)
 {
-	int i;
+	int	i;
 	int	tmp;
 
 	i = 0;
@@ -51,14 +65,15 @@ void	save_env_variable(char **envp)
 	}
 }
 
-void	print_envp(void)
+int	print_envp(void)
 {
-	t_env *tmp;
+	t_env	*tmp;
 
 	tmp = g_uni.env_list;
 	while (tmp != 0)
 	{
-		printf("%s=%s", tmp->key, tmp->val);
+		printf("%s=%s\n", tmp->key, tmp->val);
 		tmp = tmp->next;
 	}
+	return (0);
 }

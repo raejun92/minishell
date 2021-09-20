@@ -44,13 +44,35 @@ int	ft_get_type(t_lexer *curr, int prev_type)
 		return (ARG);
 }
 
-int	ft_lexer(char *input)
+void	merge_lexer(void)
+{
+	t_lexer	*curr;
+	t_lexer	*temp;
+
+	curr = g_uni.lexer_list;
+	while (curr != 0)
+	{
+		if (curr->connect == 1 && curr->next != 0)
+		{
+			temp = curr->next;
+			curr->str = ft_strjoin(curr->str, temp->str);
+			curr->connect = temp->connect;
+			curr->next = temp->next;
+			free(temp);
+		}
+		else
+			curr = curr->next;
+	}
+}
+
+void	ft_lexer(char *input)
 {
 	int		prev_type;
 	int		red;
 	t_lexer	*curr;
 
 	ft_tokenizer(input);
+	merge_lexer();
 	curr = g_uni.lexer_list;
 	prev_type = PIPE;
 	red = 0;
@@ -70,5 +92,4 @@ int	ft_lexer(char *input)
 			prev_type = curr->type;
 		curr = curr->next;
 	}
-	return (0);
 }

@@ -23,7 +23,10 @@ static char	*ft_fill_str(char *s1, int start, int len, int quote)
 	{
 		if (!(quote == 1 && s1[j] == '\'' || quote == 2 && s1[j] == '"'))
 		{
-			result[i] = s1[j];
+			if (quote != 1 && s1[j] == '$')
+				ft_handle_dollar(result, s1, &i, &j);
+			else
+				result[i] = s1[j];
 			i++;
 		}
 		j++;
@@ -43,9 +46,11 @@ static void	add_token(char *input, int start, int end, int quote)
 		len = end - start + 1;
 	else
 		len = end - start - 1;
+	if (quote != 1)
+		len += count_dollar(input, start, end, quote);
 	curr = new_lexer(1);
 	if (curr == 0)
-		return (ft_error());
+		return (ft_error(0));
 	curr->str = ft_fill_str(input, start, len, quote);
 	curr->quote = quote % 3;
 	if (quote == 0)
@@ -53,7 +58,7 @@ static void	add_token(char *input, int start, int end, int quote)
 	else
 		curr->connect = 1;
 	if (curr->str == 0)
-		return (ft_error());
+		return (ft_error(0));
 }
 
 static void	handle_delimiter(char *input, int *start, int *end, int *quote)
@@ -85,7 +90,7 @@ static void	handle_delimiter(char *input, int *start, int *end, int *quote)
 		*quote = 0;
 }
 
-int	ft_tokenizer(char *input)
+void	ft_tokenizer(char *input)
 {
 	int		i;
 	int		j;

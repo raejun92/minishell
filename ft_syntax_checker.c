@@ -15,32 +15,30 @@ static int	is_delimiter(char c, int *del)
 	}
 }
 
-static	int	ft_print_error(char *input, int idx, int type)
+static	int	print_error(char *input, int idx, int type)
 {
 	if (type == 0)
 		return (0);
 	if (idx == -1)
 		printf("bash: syntax error near unexpected token \'newline\'\n");
-	else
+	else if (input[idx] == '<')
 	{
-		if (input[idx] == '<')
-		{
-			if (input[idx + 1] == '<')
-				printf("bash: syntax error near unexpected token \'<<\'\n");
-			else
-				printf("bash: syntax error near unexpected token \'<\'\n");
-		}
-		else if (input[idx] == '>')
-		{
-			if (input[idx + 1] == '>')
-				printf("bash: syntax error near unexpected token \'>>\'\n");
-			else
-				printf("bash: syntax error near unexpected token \'>\'\n");
-		}
+		if (input[idx + 1] == '<')
+			printf("bash: syntax error near unexpected token \'<<\'\n");
 		else
-			printf("bash: syntax error near unexpected token \'%c\'\n", \
-			input[idx]);
+			printf("bash: syntax error near unexpected token \'<\'\n");
 	}
+	else if (input[idx] == '>')
+	{
+		if (input[idx + 1] == '>')
+			printf("bash: syntax error near unexpected token \'>>\'\n");
+		else
+			printf("bash: syntax error near unexpected token \'>\'\n");
+	}
+	else
+		printf("bash: syntax error near unexpected token \'%c\'\n", \
+		input[idx]);
+	g_uni.exit_status = 258;
 	return (-1);
 }
 
@@ -66,8 +64,8 @@ int	ft_syntax_checker(char *input)
 		{
 			if (!(del < 2 || (del == 2 && input[i - 1] == input[i] && \
 			(input[i] == '>' || input[i] == '<'))))
-				return (ft_print_error(input, i, del));
+				return (print_error(input, i, del));
 		}
 	}
-	return (ft_print_error(input, -1, del));
+	return (print_error(input, -1, del));
 }

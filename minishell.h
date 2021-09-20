@@ -1,12 +1,17 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include <sys/types.h>
+# include <sys/wait.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <fcntl.h>
+# include <errno.h>
+# include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include <sys/wait.h>
+
 
 # define CMD 0
 # define ARG 1
@@ -64,6 +69,7 @@ typedef struct s_uni
 	t_parser	*parser_list;
 	int			exit_status;
 	t_env		*env_list;
+	int			err_pipe[2];
 	// 환경변수 리스트
 	// tokenizer 리스트 ?
 	// lexer 리스트
@@ -73,38 +79,59 @@ typedef struct s_uni
 t_uni	g_uni;
 
 /* main.c */
-void	ft_error(void);
+void		ft_error(int exit_status);
 
 /* ft_syntax_checker.c */
-int		ft_syntax_checker(char *input);
+int			ft_syntax_checker(char *input);
 
 /* ft_tokenizer.c */
-int		ft_tokenizer(char *input);
+void		ft_tokenizer(char *input);
 
 /* ft_lexer.c */
-int		ft_lexer(char *input);
-t_lexer	*new_lexer(int type);
+void		ft_lexer(char *input);
+t_lexer		*new_lexer(int type);
 
 /* ft_parser.c */
-void	ft_parser(void);
-void	view_parser_list();
+void		ft_parser(void);
+void		view_parser_list(void);
+t_parser	*new_parser(void);
+
+/* ft_handle_dollar.c */
+int			count_dollar(char *input, int start, int end, int quote);
+void		ft_handle_dollar(char *out, char *in, int *out_idx, int *in_idx);
+
+/* ft_check_red.c */
+int			ft_check_red(t_parser *curr_parser);
 
 /* ft_execute */
-void	ft_execute(void);
+void		ft_execute(void);
 
-/* ft_split.c */
-char	**ft_split(char const *s);
-
-/* ft_utils.c */
-size_t	ft_strlen(const char *s);
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
-int		ft_strcmp(char *s1, char *s2);
+/* ft_builtin.c */
+int			ft_is_builtin(t_parser *curr_parser);
+int			ft_execute_builtin(t_parser *curr_parser);
 
 /* ft_env.c */
-void	save_env_variable(char **envp);
-void	print_envp(void);
+void		save_env_variable(char **envp);
+int			print_envp(void);
+t_env		*get_env(char *key);
 
 /* ft_pwd.c */
-void	print_pwd(void);
+int			print_pwd(void);
+
+/* ft_exit c */
+int			ft_exit(t_parser *curr_parser);
+
+/* ft_echo.c */
+int			ft_echo(t_parser *curr_parser);
+
+/* ft_split.c */
+char		**ft_split(char const *s);
+
+/* ft_utils.c */
+size_t		ft_strlen(const char *s);
+size_t		ft_strlcpy(char *dst, const char *src, size_t dstsize);
+int			ft_strcmp(char *s1, char *s2);
+char		*ft_strjoin(char *s1, char *s2);
+void		ft_print_error(int fd, char *cmd, char *arg, char *msg);
 
 #endif

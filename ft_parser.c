@@ -4,7 +4,7 @@
 static int	get_pipe_count(void)
 {
 	t_lexer	*tmp;
-	int	cnt;
+	int		cnt;
 
 	cnt = 0;
 	tmp = g_uni.lexer_list;
@@ -18,13 +18,15 @@ static int	get_pipe_count(void)
 }
 
 // 기능: parser 생성 및 초기화, 리턴: t_parser
-t_parser	*new_parser(t_parser *parser)
+t_parser	*new_parser(void)
 {
+	t_parser	*parser;
+
 	parser = (t_parser *)malloc(sizeof(t_parser) * 1);
 	parser->start = NULL;
 	parser->end = NULL;
 	parser->fd_in = 0;
-	parser->fd_out = 0;
+	parser->fd_out = 1;
 	parser->next = NULL;
 	parser->pipe[0] = 0;
 	parser->pipe[1] = 0;
@@ -48,15 +50,6 @@ void	add_parser(t_parser *parser)
 
 void	ft_parser(void)
 {
-// echo -n "This is an example" | cat -e > file1 | cat < file1 > file2
-	/* TODO
-	g_uni.lexer_list = echo(cmd) -> -n(opt) -> "This is an example"(arg) -> |(pipe)
-	1 pipe를 기준으로 자르기
-	2 각각의 lexer 담기
-	3 의미 부여하기?
-	잘라서 넣어 놓기만 하면 되려나?
-
-	 */
 	t_lexer		*cur_lexer;
 	t_parser	*parser;
 	int			parser_cnt;
@@ -69,7 +62,7 @@ void	ft_parser(void)
 	parser_cnt = get_pipe_count() + 1;
 	while (++i <= parser_cnt)
 	{
-		parser = new_parser(parser);
+		parser = new_parser();
 		parser->start = cur_lexer;
 		if (i == parser_cnt)
 			while (cur_lexer->next != NULL)
@@ -84,12 +77,15 @@ void	ft_parser(void)
 	}
 }
 
-void	view_parser_list()
+void	view_parser_list(void)
 {
-	t_parser *viewer = g_uni.parser_list;
-	t_lexer	*start;
-	t_lexer	*end;
-	while (viewer != NULL) {
+	t_parser	*viewer;
+	t_lexer		*start;
+	t_lexer		*end;
+
+	viewer = g_uni.parser_list;
+	while (viewer != NULL)
+	{
 		start = viewer->start;
 		end = viewer->end;
 		while (start != end)

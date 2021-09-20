@@ -1,8 +1,8 @@
 #include "minishell.h"
 
-void	ft_error(void)
+void	ft_error(int exit_status)
 {
-	exit(0);
+	exit(exit_status);
 }
 
 int	ft_init_uni(void)
@@ -50,16 +50,14 @@ int	main(int argc, char **argv, char **envp)
 	{
 		// 입력 받기 -> readline
 		input = readline("minishell$ ");
-		if (input)
-			printf("%s\n", input);
-		else
-			continue ; // EOF 일때 탈출
+		if (!input)
+			break ; // EOF 일때 탈출
 		add_history(input); // 출력한 문자열을 저장하여 방향키 up, down으로 확인 가능
 		if (!ft_syntax_checker(input))
 		{
 			ft_lexer(input);
 			ft_parser();
-			view_parser_list();
+			//view_parser_list();
 			if (g_uni.parser_list != 0)
 				ft_execute();
 			// 실행(fork)

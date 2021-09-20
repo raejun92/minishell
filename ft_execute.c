@@ -1,5 +1,85 @@
 #include "minishell.h"
 
+int	execute_parser(t_parser *curr_parser)
+{
+	int	ret;
+
+	ret = ft_execute_builtin(curr_parser);
+	if (ret != -1)
+		return (ret);
+	return (0);
+}
+
+void	handle_child(t_parser *curr_parser, int prev_in)
+{
+	int		ret;
+	char	buffer[256];
+
+	if (curr_parser->next == 0 && ft_is_builtin(curr_parser) && \
+	g_uni.parser_list->start == curr_parser->start)
+		exit(7);
+	if (curr_parser->fd_in > 2)
+		dup2(curr_parser->fd_in, 0);
+	else if (prev_in > 0)
+		dup2(prev_in, 0);
+	if (prev_in > 0)
+		close(prev_in);
+	if (curr_parser->fd_out < 2)
+		dup2(curr_parser->pipe[1], 1);
+	else
+		dup2(curr_parser->fd_out, 1);
+	exit(execute_parser(curr_parser));
+}
+
+void	handle_parent(t_parser *curr_parser, int child_pid, int *prev_in, \
+int wait)
+{
+	int			child_stat;
+	t_parser	*new;
+
+	if (wait)
+	{
+		waitpid(child_pid, &child_stat, 0);
+		if (curr_parser->next == 0 && WEXITSTATUS(child_stat) == 7 && \
+		g_uni.parser_list->start == curr_parser->start)
+		{
+			child_stat = ft_execute_builtin(curr_parser);
+			g_uni.exit_status = child_stat;
+			*prev_in = -1;
+		}
+		else
+			g_uni.exit_status = WEXITSTATUS(child_stat);
+		return ;
+	}
+	close(curr_parser->pipe[1]);
+	*prev_in = curr_parser->pipe[0];
+	if (curr_parser->fd_in > 2)
+		close(curr_parser->fd_in);
+	if (curr_parser->fd_out > 2)
+		close(curr_parser->fd_out);
+}
+
+void	handle_remain(int prev_in)
+{
+	char		buffer[256];
+	int			count;
+
+	if (prev_in > 0)
+	{
+		count = read(prev_in, buffer, sizeof(buffer));
+		close(prev_in);
+		write(1, buffer, count);
+	}
+	close(g_uni.err_pipe[1]);
+	count = 1;
+	while (count > 0)
+	{
+		count = read(g_uni.err_pipe[0], buffer, sizeof(buffer));
+		write(1, buffer, count);
+	}
+	close(g_uni.err_pipe[0]);
+}
+
 void	ft_execute(void)
 {
 	t_parser	*curr_parser;
@@ -8,42 +88,23 @@ void	ft_execute(void)
 
 	curr_parser = g_uni.parser_list;
 	prev_in = -1;
-	printf("%s\n", curr_parser->start->str);
-	if (ft_strcmp(curr_parser->start->str, "env"))
-		print_envp();
-	else if (ft_strcmp(curr_parser->start->str, "pwd"))
-		print_pwd();
-	while (curr_parser->next != 0)
+	if (pipe(g_uni.err_pipe) != 0)
+		return (ft_error(0));
+	while (curr_parser != 0)
 	{
 		if (pipe(curr_parser->pipe) != 0)
-			return (ft_error());
-		curr_pid = fork();
-		if (curr_pid < 0)
-			return (ft_error());
-		if (curr_pid == 0)
+			return (ft_error(0));
+		if (ft_check_red(curr_parser) == 1)
 		{
-			if (prev_in >= 0)
-			{
-				dup2(prev_in, 0);
-				close(prev_in);
-			}
-			dup2(curr_parser->pipe[1], 1);
-		
-			// builtin check
-			// 아니면 execve로 실행
-			// status 처리 필요
-			exit(0);
+			curr_pid = fork();
+			if (curr_pid < 0)
+				return (ft_error(0));
+			if (curr_pid == 0)
+				handle_child(curr_parser, prev_in);
+			handle_parent(curr_parser, curr_pid, &prev_in, 1);
 		}
-		else
-		{
-			waitpid(curr_pid, &(g_uni.exit_status), 0);
-			close(curr_parser->pipe[1]);
-			prev_in = curr_parser->pipe[0];
-			//exit_status 체크
-		}
+		handle_parent(curr_parser, curr_pid, &prev_in, 0);
 		curr_parser = curr_parser->next;
 	}
-	// 마지막 작업은 여기서
-	if (prev_in >= 0)
-		close(prev_in);
+	handle_remain(prev_in);
 }

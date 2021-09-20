@@ -2,9 +2,11 @@
 
 size_t	ft_strlen(const char *s)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
+	if (s == 0)
+		return (0);
 	while (s[i])
 		i++;
 	return (i);
@@ -32,7 +34,7 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 	return (src_l);
 }
 
-int		ft_strcmp(char *s1, char *s2)
+int	ft_strcmp(char *s1, char *s2)
 {
 	int	i;
 
@@ -48,4 +50,50 @@ int		ft_strcmp(char *s1, char *s2)
 		i++;
 	}
 	return (1);
+}
+
+char	*ft_strjoin(char *s1, char *s2)
+{
+	char			*result;
+	unsigned int	i;
+	unsigned int	j;
+
+	if (s1 == 0 || s2 == 0)
+		return (0);
+	i = 0;
+	j = 0;
+	while (s1[i] != '\0')
+		i++;
+	while (s2[j] != '\0')
+		j++;
+	result = malloc(sizeof(char) * (i + j + 1));
+	if (result == 0)
+		return (0);
+	i = -1;
+	j = -1;
+	while (s1[++i] != '\0')
+		result[i] = s1[i];
+	while (s2[++j] != '\0')
+		result[i++] = s2[j];
+	result[i] = '\0';
+	free(s1);
+	free(s2);
+	return (result);
+}
+
+void	ft_print_error(int fd, char *cmd, char *arg, char *msg)
+{
+	write(fd, "bash: ", 6);
+	if (cmd != 0)
+	{
+		write(fd, cmd, ft_strlen(cmd));
+		write(fd, ": ", 2);
+	}
+	if (arg != 0)
+	{
+		write(fd, arg, ft_strlen(arg));
+		write(fd, ": ", 2);
+	}
+	write(fd, msg, ft_strlen(msg));
+	write(fd, "\n", 1);
 }
