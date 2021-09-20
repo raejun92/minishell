@@ -10,19 +10,19 @@ int	ft_execute_builtin(t_parser *curr_parser)
 		curr_lexer = curr_lexer->next;
 	if (curr_lexer == 0)
 		return (0);
-	if (ft_strcmp(curr_lexer->str, "echo"))
+	if (ft_strcmp(curr_lexer->str, "echo") == 0)
 		ret = ft_echo(curr_parser);
-	else if (ft_strcmp(curr_lexer->str, "cd"))
+	else if (ft_strcmp(curr_lexer->str, "cd") == 0)
 		ret = ft_echo(curr_parser);
-	else if (ft_strcmp(curr_lexer->str, "pwd"))
+	else if (ft_strcmp(curr_lexer->str, "pwd") == 0)
 		ret = print_pwd();
-	else if (ft_strcmp(curr_lexer->str, "export"))
+	else if (ft_strcmp(curr_lexer->str, "export") == 0)
 		ret = ft_echo(curr_parser);
-	else if (ft_strcmp(curr_lexer->str, "unset"))
+	else if (ft_strcmp(curr_lexer->str, "unset") == 0)
 		ret = ft_echo(curr_parser);
-	else if (ft_strcmp(curr_lexer->str, "env"))
+	else if (ft_strcmp(curr_lexer->str, "env") == 0)
 		ret = print_envp();
-	else if (ft_strcmp(curr_lexer->str, "exit"))
+	else if (ft_strcmp(curr_lexer->str, "exit") == 0)
 		ret = ft_exit(curr_parser);
 	else
 		return (-1);
@@ -39,19 +39,19 @@ int	ft_is_builtin(t_parser *curr_parser)
 		curr_lexer = curr_lexer->next;
 	if (curr_lexer == 0)
 		return (1);
-	if (ft_strcmp(curr_lexer->str, "echo"))
+	if (ft_strcmp(curr_lexer->str, "echo") == 0)
 		return (1);
-	else if (ft_strcmp(curr_lexer->str, "cd"))
+	else if (ft_strcmp(curr_lexer->str, "cd") == 0)
 		return (1);
-	else if (ft_strcmp(curr_lexer->str, "pwd"))
+	else if (ft_strcmp(curr_lexer->str, "pwd") == 0)
 		return (1);
-	else if (ft_strcmp(curr_lexer->str, "export"))
+	else if (ft_strcmp(curr_lexer->str, "export") == 0)
 		return (1);
-	else if (ft_strcmp(curr_lexer->str, "unset"))
+	else if (ft_strcmp(curr_lexer->str, "unset") == 0)
 		return (1);
-	else if (ft_strcmp(curr_lexer->str, "env"))
+	else if (ft_strcmp(curr_lexer->str, "env") == 0)
 		return (1);
-	else if (ft_strcmp(curr_lexer->str, "exit"))
+	else if (ft_strcmp(curr_lexer->str, "exit") == 0)
 		return (1);
 	else
 		return (0);

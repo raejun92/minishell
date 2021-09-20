@@ -70,7 +70,7 @@ int	handle_heredoc(t_parser *curr_parser, t_lexer *curr_lexer)
 	while (1)
 	{
 		input = readline("> ");
-		if (!input || ft_strcmp(input, curr_lexer->next->str))
+		if (!input || ft_strcmp(input, curr_lexer->next->str) == 0)
 			break ;
 		write(curr_parser->pipe[1], input, strlen(input));
 		write(curr_parser->pipe[1], "\n", 1);
@@ -96,13 +96,13 @@ int	ft_check_red(t_parser *curr_parser)
 	{
 		if (curr_lexer->type == RED)
 		{
-			if (ft_strcmp(curr_lexer->str, "<"))
+			if (ft_strcmp(curr_lexer->str, "<") == 0)
 				ret = handle_input(curr_parser, curr_lexer);
-			else if (ft_strcmp(curr_lexer->str, ">"))
+			else if (ft_strcmp(curr_lexer->str, ">") == 0)
 				ret = handle_output(curr_parser, curr_lexer, 0);
-			else if (ft_strcmp(curr_lexer->str, ">>"))
+			else if (ft_strcmp(curr_lexer->str, ">>") == 0)
 				ret = handle_output(curr_parser, curr_lexer, 1);
-			else if (ft_strcmp(curr_lexer->str, "<<"))
+			else if (ft_strcmp(curr_lexer->str, "<<") == 0)
 				return (handle_heredoc(curr_parser, curr_lexer));
 			if (ret != 0)
 				return (0);

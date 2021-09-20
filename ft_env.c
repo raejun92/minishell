@@ -18,7 +18,7 @@ t_env	*get_env(char *key)
 	curr = g_uni.env_list;
 	while (curr != 0)
 	{
-		if (ft_strcmp(curr->key, key))
+		if (ft_strcmp(curr->key, key) == 0)
 			return (curr);
 		curr = curr->next;
 	}
