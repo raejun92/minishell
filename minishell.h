@@ -9,9 +9,9 @@
 # include <fcntl.h>
 # include <errno.h>
 # include <signal.h>
+# include <dirent.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-
 
 # define CMD 0
 # define ARG 1
@@ -125,6 +125,13 @@ int			ft_exit(t_parser *curr_parser);
 /* ft_echo.c */
 int			ft_echo(t_parser *curr_parser);
 
+/* ft_cd.c */
+int			ft_cd(t_parser *curr_parser);
+
+/* ft_export.c */
+void		export(t_parser *curr_parser);
+void		set_export(void);
+
 /* ft_split.c */
 char		**ft_split(char const *s);
 
@@ -134,9 +141,5 @@ size_t		ft_strlcpy(char *dst, const char *src, size_t dstsize);
 int			ft_strcmp(char *s1, char *s2);
 char		*ft_strjoin(char *s1, char *s2);
 void		ft_print_error(int fd, char *cmd, char *arg, char *msg);
-
-/* ft_export.c */
-void	export(t_parser *curr_parser);
-void	set_export();
 
 #endif

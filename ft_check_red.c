@@ -81,6 +81,8 @@ int	handle_heredoc(t_parser *curr_parser, t_lexer *curr_lexer)
 	new->start = curr_parser->start;
 	new->end = curr_parser->end;
 	new->next = curr_parser->next;
+	new->fd_in = curr_parser->fd_in;
+	new->fd_out = curr_parser->fd_out;
 	curr_parser->next = new;
 	return (2);
 }
