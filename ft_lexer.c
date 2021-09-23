@@ -23,7 +23,7 @@ t_lexer	*new_lexer(int type)
 			g_uni.lexer_list = curr;
 		curr->next = 0;
 	}
-	else
+	else if (prev)
 		prev->connect = 0;
 	return (curr);
 }

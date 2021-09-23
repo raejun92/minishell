@@ -18,22 +18,22 @@ int	ft_reset_uni(void)
 	t_parser	*curr_parser;
 	t_parser	*temp_parser;
 
-	curr_lexer = g_uni.lexer_list;
-	while (curr_lexer != 0)
-	{
-		temp_lexer = curr_lexer;
-		free(curr_lexer->str);
-		curr_lexer = temp_lexer->next;
-		free(temp_lexer);
-	}
-	g_uni.lexer_list = 0;
 	curr_parser = g_uni.parser_list;
 	while (curr_parser != 0)
 	{
 		temp_parser = curr_parser;
+		curr_lexer = curr_parser->start;
+		while (curr_lexer != 0)
+		{
+			temp_lexer = curr_lexer;
+			free(curr_lexer->str);
+			curr_lexer = temp_lexer->next;
+			free(temp_lexer);
+		}
 		curr_parser = curr_parser->next;
 		free(temp_parser);
 	}
+	g_uni.lexer_list = 0;
 	g_uni.parser_list = 0;
 }
 
