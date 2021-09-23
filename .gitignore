@@ -3,3 +3,4 @@ test.c
 a.out
 minishell
 .vscode
+/a.out.dSYM

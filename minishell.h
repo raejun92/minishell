@@ -11,6 +11,7 @@
 # include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include "string.h"
 
 
 # define CMD 0
@@ -112,9 +113,11 @@ int			ft_is_builtin(t_parser *curr_parser);
 int			ft_execute_builtin(t_parser *curr_parser);
 
 /* ft_env.c */
-int			print_envp(void);
+t_env		*new_env(void);
 t_env		*get_env(char *key);
-void		set_env(char **envp);
+void		save_env_variable(t_env *env, char *envp);
+void		ft_env(char **envp);
+int			print_envp(t_parser *parser);
 
 /* ft_pwd.c */
 int			print_pwd(void);
@@ -135,8 +138,22 @@ int			ft_strcmp(char *s1, char *s2);
 char		*ft_strjoin(char *s1, char *s2);
 void		ft_print_error(int fd, char *cmd, char *arg, char *msg);
 
+/* ft_utils2.c */
+int			ft_isalpha(int c);
+int			ft_isdigit(int c);
+
 /* ft_export.c */
-void	export(t_parser *curr_parser);
-void	set_export();
+int			ft_export(t_parser *curr_parser);
+void		print_export();
+
+/* ft_export2.c */
+void		init_env_check(void);
+int			count_equal(char *str);
+int			check_export_key(char *str);
+void		handle_is_not_equal(char *str);
+int			check_export_valid(char *str);
+
+/* ft_unset.c */
+int			ft_unset(t_parser *parser);
 
 #endif

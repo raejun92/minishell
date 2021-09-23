@@ -17,11 +17,11 @@ int	ft_execute_builtin(t_parser *curr_parser)
 	else if (ft_strcmp(curr_lexer->str, "pwd") == 0)
 		ret = print_pwd();
 	else if (ft_strcmp(curr_lexer->str, "export") == 0)
-		ret = ft_echo(curr_parser);
+		ret = ft_export(curr_parser);
 	else if (ft_strcmp(curr_lexer->str, "unset") == 0)
-		ret = ft_echo(curr_parser);
+		ret = ft_unset(curr_parser);
 	else if (ft_strcmp(curr_lexer->str, "env") == 0)
-		ret = print_envp();
+		ret = print_envp(curr_parser);
 	else if (ft_strcmp(curr_lexer->str, "exit") == 0)
 		ret = ft_exit(curr_parser);
 	else

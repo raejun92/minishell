@@ -1,8 +1,10 @@
 #include "minishell.h"
 
 // 기능: env 생성 및 초기화, 리턴: t_env
-t_env	*new_env(t_env *env)
+t_env	*new_env(void)
 {
+	t_env *env;
+
 	env = (t_env *)malloc(sizeof(t_env) * 1);
 	env->key = NULL;
 	env->val = NULL;
@@ -51,14 +53,14 @@ void	save_env_variable(t_env *env, char *envp)
 }
 
 // 기능: 환경변수를 받아와 env_list 구성, 리턴: void
-void	set_env(char **envp)
+void	ft_env(char **envp)
 {
 	t_env	*env;
 	t_env	*temp;
 
 	while (*envp != 0)
 	{
-		env = new_env(env);
+		env = new_env();
 		save_env_variable(env, *envp);
 		if (g_uni.env_list == NULL)
 			g_uni.env_list = env;
@@ -74,14 +76,21 @@ void	set_env(char **envp)
 }
 
 // 기능: envp 출력, 리턴: void
-int	print_envp(void)
+int	print_envp(t_parser *parser)
 {
 	t_env	*tmp;
 
+	if (parser->start->next != NULL)
+	{
+		printf("env: %s: No such file or directory\n", \
+		parser->start->next->str);
+		return (-1);
+	}
 	tmp = g_uni.env_list;
 	while (tmp != 0)
 	{
-		printf("%s=%s\n", tmp->key, tmp->val);
+		if (tmp->val != NULL)
+			printf("%s=%s\n", tmp->key, tmp->val);
 		tmp = tmp->next;
 	}
 	return (0);
