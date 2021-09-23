@@ -13,7 +13,7 @@ int	ft_execute_builtin(t_parser *curr_parser)
 	if (ft_strcmp(curr_lexer->str, "echo") == 0)
 		ret = ft_echo(curr_parser);
 	else if (ft_strcmp(curr_lexer->str, "cd") == 0)
-		ret = ft_echo(curr_parser);
+		ret = ft_cd(curr_parser);
 	else if (ft_strcmp(curr_lexer->str, "pwd") == 0)
 		ret = print_pwd();
 	else if (ft_strcmp(curr_lexer->str, "export") == 0)

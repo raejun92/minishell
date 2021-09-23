@@ -9,10 +9,10 @@
 # include <fcntl.h>
 # include <errno.h>
 # include <signal.h>
+# include <dirent.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "string.h"
-
 
 # define CMD 0
 # define ARG 1
@@ -128,6 +128,13 @@ int			ft_exit(t_parser *curr_parser);
 /* ft_echo.c */
 int			ft_echo(t_parser *curr_parser);
 
+/* ft_cd.c */
+int			ft_cd(t_parser *curr_parser);
+
+/* ft_export.c */
+void		export(t_parser *curr_parser);
+void		set_export(void);
+
 /* ft_split.c */
 char		**ft_split(char const *s);
 
@@ -153,7 +160,9 @@ int			check_export_key(char *str);
 void		handle_is_not_equal(char *str);
 int			check_export_valid(char *str);
 
+/* ft_export3.c */
+void		handle_is_equal(char *str, t_env *tmp);
+
 /* ft_unset.c */
 int			ft_unset(t_parser *parser);
-
 #endif
