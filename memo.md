@@ -22,7 +22,7 @@ tgoto, tputs
 - bash: echo >>>>(3개 이상) -> bash: syntax error near unexpected token `>>'
 - bash: echo >>> -> bash: syntax error near unexpected token `>'
 - bash: abcd -> bash: abcd: command not found
-- bash: echo > $CCC(존재하지 않는 환경변수) -> bash: $CCC: ambiguous redirect
+- bash: syntax error near unexpected token 'a' unset (a -> 
 
 # $?
 - 파이프 맨 마지막 리턴되는 숫자

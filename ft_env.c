@@ -84,7 +84,7 @@ int	print_envp(t_parser *parser)
 	{
 		printf("env: %s: No such file or directory\n", \
 		parser->start->next->str);
-		return (-1);
+		return (127);
 	}
 	tmp = g_uni.env_list;
 	while (tmp != 0)

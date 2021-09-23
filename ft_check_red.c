@@ -6,7 +6,13 @@ t_lexer	*delete_red(t_parser *curr_parser, t_lexer *curr_lexer)
 
 	temp = 0;
 	if (curr_parser->start == curr_lexer)
+	{
+		if (g_uni.lexer_list == curr_lexer)
+		{
+			g_uni.lexer_list = curr_lexer->next->next;
+		}
 		curr_parser->start = curr_lexer->next->next;
+	}	
 	else
 	{
 		temp = curr_parser->start;
@@ -45,10 +51,10 @@ int	handle_output(t_parser *curr_parser, t_lexer *curr_lexer, int mode)
 {
 	int	fd;
 
-	if (mode == 1)
-		fd = open(curr_lexer->next->str, O_WRONLY | O_APPEND | O_CREAT, 00644);
+	if (mode == 1) 
+		fd = open(curr_lexer->next->str, O_WRONLY | O_APPEND | O_CREAT, 644);
 	else
-		fd = open(curr_lexer->next->str, O_WRONLY | O_CREAT | O_TRUNC, 00644);
+		fd = open(curr_lexer->next->str, O_WRONLY | O_CREAT | O_TRUNC, 644);
 	if (fd == -1)
 	{
 		ft_print_error(g_uni.err_pipe[1], 0, curr_lexer->next->str, \

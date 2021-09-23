@@ -41,7 +41,6 @@ static void	add_token(char *input, int start, int end, int quote)
 	int		i;
 	int		j;
 	int		len;
-
 	if (quote % 3 == 0)
 		len = end - start + 1;
 	else

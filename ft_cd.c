@@ -42,7 +42,7 @@ static int	handle_relative(t_lexer *curr_lexer)
 		return (1);
 	if (chdir(new_path) == -1)
 	{
-		ft_print_error(g_uni.err_pipe[1], "cd", 0, \
+		ft_print_error(g_uni.err_pipe[1], "cd", curr_lexer->str, \
 	strerror(errno));
 		return (1);
 	}
@@ -55,7 +55,7 @@ static int	handle_absolute(t_lexer *curr_lexer)
 {
 	if (chdir(curr_lexer->str) == -1)
 	{
-		ft_print_error(g_uni.err_pipe[1], "cd", 0, \
+		ft_print_error(g_uni.err_pipe[1], "cd", curr_lexer->str, \
 	strerror(errno));
 		return (1);
 	}
@@ -74,12 +74,12 @@ int	ft_cd(t_parser *curr_parser)
 			break ;
 		curr_lexer = curr_lexer->next;
 	}
-	if (curr_lexer->next != 0)
+	/*if (curr_lexer->next != 0)
 	{
 		ft_print_error(g_uni.err_pipe[1], "cd", 0, \
 		"too many arguments");
 		return (1);
-	}
+	}*/
 	if ((curr_lexer->str)[0] == '/')
 		return (handle_absolute(curr_lexer));
 	else

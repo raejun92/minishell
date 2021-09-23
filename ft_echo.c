@@ -12,7 +12,6 @@ static int	is_only_contain(char *str, char c, int start)
 	}
 	return (1);
 }
-
 int	ft_echo(t_parser *curr_parser)
 {
 	t_lexer	*curr_lexer;

@@ -4,9 +4,10 @@ int	execute_parser(t_parser *curr_parser)
 {
 	int	ret;
 
-	ret = ft_execute_builtin(curr_parser);
+	ret = ft_execute_builtin(curr_parser, 0);
 	if (ret != -1)
 		return (ret);
+	// execve -> 
 	return (0);
 }
 
@@ -43,7 +44,7 @@ int wait)
 		if (curr_parser->next == 0 && WEXITSTATUS(child_stat) == 7 && \
 		g_uni.parser_list->start == curr_parser->start)
 		{
-			child_stat = ft_execute_builtin(curr_parser);
+			child_stat = ft_execute_builtin(curr_parser, 1);
 			g_uni.exit_status = child_stat;
 			*prev_in = -1;
 		}

@@ -7,7 +7,11 @@ int	print_pwd(void)
 
 	path = getcwd(NULL, 0);
 	if (!path)
-		return (0);
+	{
+		ft_print_error(g_uni.err_pipe[1], "pwd", 0, \
+	strerror(errno));
+		return (1);
+	}
 	printf("%s\n", path);
 	free(path);
 	path = 0;

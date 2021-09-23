@@ -42,12 +42,6 @@ void	remove_env(char *str)
 
 int	ft_unset(t_parser *parser)
 {
-	/* TODO 
-	unset aa=aa -> bash: unset: `aa=aa': not a valid identifier
-	unset aa -> o
-	unset aa bb -> o
-	unset a= -> bash: unset: `a=': not a valid identifier
-	 */
 	t_lexer *curr_lexer;
 
 	curr_lexer = parser->start->next;
