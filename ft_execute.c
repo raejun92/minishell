@@ -7,15 +7,12 @@ int	execute_parser(t_parser *curr_parser)
 	ret = ft_execute_builtin(curr_parser, 0);
 	if (ret != -1)
 		return (ret);
-	// execve -> 
+	// execve ->
 	return (0);
 }
 
 void	handle_child(t_parser *curr_parser, int prev_in)
 {
-	int		ret;
-	char	buffer[256];
-
 	if (curr_parser->next == 0 && ft_is_builtin(curr_parser) && \
 	g_uni.parser_list->start == curr_parser->start)
 		exit(7);
@@ -36,7 +33,6 @@ void	handle_parent(t_parser *curr_parser, int child_pid, int *prev_in, \
 int wait)
 {
 	int			child_stat;
-	t_parser	*new;
 
 	if (wait)
 	{
@@ -71,14 +67,6 @@ void	handle_remain(int prev_in)
 		close(prev_in);
 		write(1, buffer, count);
 	}
-	close(g_uni.err_pipe[1]);
-	count = 1;
-	while (count > 0)
-	{
-		count = read(g_uni.err_pipe[0], buffer, sizeof(buffer));
-		write(1, buffer, count);
-	}
-	close(g_uni.err_pipe[0]);
 }
 
 void	ft_execute(void)
@@ -89,8 +77,6 @@ void	ft_execute(void)
 
 	curr_parser = g_uni.parser_list;
 	prev_in = -1;
-	if (pipe(g_uni.err_pipe) != 0)
-		return (ft_error(0));
 	while (curr_parser != 0)
 	{
 		if (pipe(curr_parser->pipe) != 0)

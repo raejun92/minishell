@@ -71,7 +71,6 @@ typedef struct s_uni
 	t_parser	*parser_list;
 	int			exit_status;
 	t_env		*env_list;
-	int			err_pipe[2];
 	// 환경변수 리스트
 	// tokenizer 리스트 ?
 	// lexer 리스트
@@ -99,7 +98,7 @@ void		view_parser_list(void);
 t_parser	*new_parser(void);
 
 /* ft_handle_dollar.c */
-int			count_dollar(char *input, int start, int end, int quote);
+int			count_dollar(char *input, int start, int end);
 void		ft_handle_dollar(char *out, char *in, int *out_idx, int *in_idx);
 
 /* ft_check_red.c */
@@ -151,7 +150,7 @@ int			ft_isdigit(int c);
 
 /* ft_export.c */
 int			ft_export(t_parser *curr_parser);
-void		print_export();
+void		print_export(void);
 
 /* ft_export2.c */
 void		init_env_check(void);

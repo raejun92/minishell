@@ -28,6 +28,7 @@ void	handle_is_equal(char *str, t_env *tmp)
 {
 	t_env	*new;
 
+	new = 0;
 	if (check_export_valid(str) || str[0] == '=')
 		printf("bash: export: `%s': not a valid identifier\n", str);
 	else if (count_equal(str) == 1 && str[ft_strlen(str) - 1] == '=')

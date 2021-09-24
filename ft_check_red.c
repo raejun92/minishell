@@ -12,7 +12,7 @@ t_lexer	*delete_red(t_parser *curr_parser, t_lexer *curr_lexer)
 			g_uni.lexer_list = curr_lexer->next->next;
 		}
 		curr_parser->start = curr_lexer->next->next;
-	}	
+	}
 	else
 	{
 		temp = curr_parser->start;
@@ -37,7 +37,7 @@ int	handle_input(t_parser *curr_parser, t_lexer *curr_lexer)
 	fd = open(curr_lexer->next->str, O_RDONLY);
 	if (fd == -1)
 	{
-		ft_print_error(g_uni.err_pipe[1], 0, curr_lexer->next->str, \
+		ft_print_error(2, 0, curr_lexer->next->str, \
 		strerror(errno));
 		return (1);
 	}
@@ -51,13 +51,13 @@ int	handle_output(t_parser *curr_parser, t_lexer *curr_lexer, int mode)
 {
 	int	fd;
 
-	if (mode == 1) 
+	if (mode == 1)
 		fd = open(curr_lexer->next->str, O_WRONLY | O_APPEND | O_CREAT, 644);
 	else
 		fd = open(curr_lexer->next->str, O_WRONLY | O_CREAT | O_TRUNC, 644);
 	if (fd == -1)
 	{
-		ft_print_error(g_uni.err_pipe[1], 0, curr_lexer->next->str, \
+		ft_print_error(2, 0, curr_lexer->next->str, \
 		strerror(errno));
 		return (1);
 	}
@@ -71,7 +71,6 @@ int	handle_heredoc(t_parser *curr_parser, t_lexer *curr_lexer)
 {
 	char		*input;
 	t_parser	*new;
-	t_lexer		*temp;
 
 	while (1)
 	{
@@ -82,7 +81,7 @@ int	handle_heredoc(t_parser *curr_parser, t_lexer *curr_lexer)
 		write(curr_parser->pipe[1], "\n", 1);
 		free(input);
 	}
-	temp = delete_red(curr_parser, curr_lexer);
+	delete_red(curr_parser, curr_lexer);
 	new = new_parser();
 	new->start = curr_parser->start;
 	new->end = curr_parser->end;

@@ -81,10 +81,10 @@ int	ft_exit(t_parser *curr_parser, int type)
 			if (!is_digit(curr_lexer->str) || !is_in_range(curr_lexer->str))
 			{
 				if (type == 1)
-					ft_print_error(1, "exit", curr_lexer->str, \
+					ft_print_error(2, "exit", curr_lexer->str, \
 		"numeric argument required");
 				else
-					ft_print_error(g_uni.err_pipe[1], "exit", curr_lexer->str, \
+					ft_print_error(2, "exit", curr_lexer->str, \
 		"numeric argument required");
 				exit(2);
 				return (2);
@@ -96,7 +96,7 @@ int	ft_exit(t_parser *curr_parser, int type)
 	}
 	if (curr_lexer == 0 || curr_lexer->next == 0)
 		exit((unsigned char)status);
-	ft_print_error(g_uni.err_pipe[1], "exit", 0, \
+	ft_print_error(2, "exit", 0, \
 	"too many arguments");
 	return (1);
 }

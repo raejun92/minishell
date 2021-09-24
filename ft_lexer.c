@@ -42,6 +42,7 @@ int	ft_get_type(t_lexer *curr, int prev_type)
 		return (ARG);
 	else if (prev_type == ARG)
 		return (ARG);
+	return (ARG);
 }
 
 void	merge_lexer(void)

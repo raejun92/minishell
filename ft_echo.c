@@ -12,11 +12,11 @@ static int	is_only_contain(char *str, char c, int start)
 	}
 	return (1);
 }
+
 int	ft_echo(t_parser *curr_parser)
 {
 	t_lexer	*curr_lexer;
 	int		flag;
-	int		fd;
 
 	flag = 0;
 	curr_lexer = curr_parser->start;

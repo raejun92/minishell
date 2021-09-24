@@ -55,7 +55,7 @@ static char	*get_val(char *input, int start, int end)
 		return (curr_env->val);
 }
 
-int	count_dollar(char *input, int start, int end, int quote)
+int	count_dollar(char *input, int start, int end)
 {
 	int		count;
 	int		i;
@@ -98,7 +98,7 @@ void	ft_handle_dollar(char *out, char *in, int *out_idx, int *in_idx)
 	else
 		val = get_val(in, *in_idx, i - 1);
 	j = -1;
-	while (++j < ft_strlen(val))
+	while (++j < (int)ft_strlen(val))
 		out[j + *out_idx] = val[j];
 	if (*in_idx == i - 1 && in[i] == '?')
 	{

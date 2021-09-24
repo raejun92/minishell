@@ -35,6 +35,7 @@ int	ft_reset_uni(void)
 	}
 	g_uni.lexer_list = 0;
 	g_uni.parser_list = 0;
+	return (0);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -44,6 +45,8 @@ int	main(int argc, char **argv, char **envp)
 	t_env	*curr_env;
 	t_env	*temp_env;
 
+	if (argc == 0 || argv == 0)
+		return (0);
 	ft_init_uni();
 	// 환경변수 저장
 	ft_env(envp);

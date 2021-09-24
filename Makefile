@@ -13,4 +13,4 @@ INCLUDES=./
 all: $(NAME)
 
 $(NAME): $(SRCS)
-	gcc -I. $(SRCS) -o $(NAME) -lreadline
+	gcc -I. $(FLAGS) $(SRCS) -o $(NAME) -lreadline

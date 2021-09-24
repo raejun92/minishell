@@ -32,7 +32,6 @@ int	ft_execute_builtin(t_parser *curr_parser, int type)
 int	ft_is_builtin(t_parser *curr_parser)
 {
 	t_lexer	*curr_lexer;
-	int		ret;
 
 	curr_lexer = curr_parser->start;
 	while (curr_lexer != 0 && curr_lexer->type != CMD)

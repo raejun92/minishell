@@ -28,12 +28,11 @@ static int	handle_relative(t_lexer *curr_lexer)
 {
 	char	*curr_path;
 	char	*new_path;
-	int		i;
 
 	curr_path = getcwd(NULL, 0);
 	if (!curr_path)
 	{
-		ft_print_error(g_uni.err_pipe[1], "cd", 0, \
+		ft_print_error(2, "cd", 0, \
 	strerror(errno));
 		return (1);
 	}
@@ -42,7 +41,7 @@ static int	handle_relative(t_lexer *curr_lexer)
 		return (1);
 	if (chdir(new_path) == -1)
 	{
-		ft_print_error(g_uni.err_pipe[1], "cd", curr_lexer->str, \
+		ft_print_error(2, "cd", curr_lexer->str, \
 	strerror(errno));
 		return (1);
 	}
@@ -55,7 +54,7 @@ static int	handle_absolute(t_lexer *curr_lexer)
 {
 	if (chdir(curr_lexer->str) == -1)
 	{
-		ft_print_error(g_uni.err_pipe[1], "cd", curr_lexer->str, \
+		ft_print_error(2, "cd", curr_lexer->str, \
 	strerror(errno));
 		return (1);
 	}
@@ -65,7 +64,6 @@ static int	handle_absolute(t_lexer *curr_lexer)
 int	ft_cd(t_parser *curr_parser)
 {
 	t_lexer	*curr_lexer;
-	char	*path;
 
 	curr_lexer = curr_parser->start;
 	while (curr_lexer->next != 0)

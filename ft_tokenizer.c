@@ -11,8 +11,8 @@ static int	is_delimiter(char c)
 static char	*ft_fill_str(char *s1, int start, int len, int quote)
 {
 	char			*result;
-	unsigned int	i;
-	unsigned int	j;
+	int				i;
+	int				j;
 
 	result = malloc(sizeof(char) * (len + 1));
 	if (result == 0)
@@ -21,7 +21,7 @@ static char	*ft_fill_str(char *s1, int start, int len, int quote)
 	j = start;
 	while (i < len)
 	{
-		if (!(quote == 1 && s1[j] == '\'' || quote == 2 && s1[j] == '"'))
+		if (!((quote == 1 && s1[j] == '\'') || (quote == 2 && s1[j] == '"')))
 		{
 			if (quote != 1 && s1[j] == '$')
 				ft_handle_dollar(result, s1, &i, &j);
@@ -38,15 +38,14 @@ static char	*ft_fill_str(char *s1, int start, int len, int quote)
 static void	add_token(char *input, int start, int end, int quote)
 {
 	t_lexer	*curr;
-	int		i;
-	int		j;
 	int		len;
+
 	if (quote % 3 == 0)
 		len = end - start + 1;
 	else
 		len = end - start - 1;
 	if (quote != 1)
-		len += count_dollar(input, start, end, quote);
+		len += count_dollar(input, start, end);
 	curr = new_lexer(1);
 	if (curr == 0)
 		return (ft_error(0));
@@ -110,8 +109,8 @@ void	ft_tokenizer(char *input)
 		}
 		else if (!quote && is_delimiter(input[i]))
 			handle_delimiter(input, &j, &i, 0);
-		else if (quote == 1 && input[i] == '\'' || \
-		quote == 2 && input[i] == '"')
+		else if ((quote == 1 && input[i] == '\'') || \
+		(quote == 2 && input[i] == '"'))
 			handle_delimiter(input, &j, &i, &quote);
 	}
 	if (j < i)
