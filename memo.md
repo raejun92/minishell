@@ -22,7 +22,7 @@ tgoto, tputs
 - bash: echo >>>>(3개 이상) -> bash: syntax error near unexpected token `>>'
 - bash: echo >>> -> bash: syntax error near unexpected token `>'
 - bash: abcd -> bash: abcd: command not found
-- bash: syntax error near unexpected token 'a' unset (a -> 
+- bash: syntax error near unexpected token 'a' unset (a ->
 
 # $?
 - 파이프 맨 마지막 리턴되는 숫자
@@ -30,6 +30,7 @@ tgoto, tputs
 - 1 -> 커맨드 잘못된 옵션
 - 127 -> command not found
 - 258 -> syntax error
+- 255 -> exit + non numeric argument
 - echo $USER$? -> choijunho1
 - 131 -> signal 자식에서 실행되는 동안 컨트롤 + \
 - 130 -> signal 자식에서 실행되는 동안 컨트롤 + c
