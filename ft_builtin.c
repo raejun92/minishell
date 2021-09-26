@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	ft_execute_builtin(t_parser *curr_parser, int type)
+int	ft_execute_builtin(t_parser *curr_parser)
 {
 	t_lexer	*curr_lexer;
 	int		ret;
@@ -23,7 +23,7 @@ int	ft_execute_builtin(t_parser *curr_parser, int type)
 	else if (ft_strcmp(curr_lexer->str, "env") == 0)
 		ret = print_envp(curr_parser);
 	else if (ft_strcmp(curr_lexer->str, "exit") == 0)
-		ret = ft_exit(curr_parser, type);
+		ret = ft_exit(curr_parser);
 	else
 		return (-1);
 	return (ret);

@@ -2,9 +2,14 @@
 
 static int	is_delimiter(char c, int *del)
 {
+	static char	prev = 0;
+
 	if (c == '|' || c == '>' || c == '<')
 	{
 		(*del) += 1;
+		if (prev == '|' && (c == '>' || c == '<'))
+			(*del) = 1;
+		prev = c;
 		return (1);
 	}
 	else

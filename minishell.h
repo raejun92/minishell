@@ -109,7 +109,7 @@ void		ft_execute(void);
 
 /* ft_builtin.c */
 int			ft_is_builtin(t_parser *curr_parser);
-int			ft_execute_builtin(t_parser *curr_parser, int type);
+int			ft_execute_builtin(t_parser *curr_parser);
 
 /* ft_env.c */
 t_env		*new_env(void);
@@ -122,7 +122,7 @@ int			print_envp(t_parser *parser);
 int			print_pwd(void);
 
 /* ft_exit c */
-int			ft_exit(t_parser *curr_parser, int type);
+int			ft_exit(t_parser *curr_parser);
 
 /* ft_echo.c */
 int			ft_echo(t_parser *curr_parser);

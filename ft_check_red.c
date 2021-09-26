@@ -52,9 +52,9 @@ int	handle_output(t_parser *curr_parser, t_lexer *curr_lexer, int mode)
 	int	fd;
 
 	if (mode == 1)
-		fd = open(curr_lexer->next->str, O_WRONLY | O_APPEND | O_CREAT, 644);
+		fd = open(curr_lexer->next->str, O_WRONLY | O_APPEND | O_CREAT, 00644);
 	else
-		fd = open(curr_lexer->next->str, O_WRONLY | O_CREAT | O_TRUNC, 644);
+		fd = open(curr_lexer->next->str, O_WRONLY | O_CREAT | O_TRUNC, 00644);
 	if (fd == -1)
 	{
 		ft_print_error(2, 0, curr_lexer->next->str, \

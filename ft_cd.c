@@ -66,18 +66,14 @@ int	ft_cd(t_parser *curr_parser)
 	t_lexer	*curr_lexer;
 
 	curr_lexer = curr_parser->start;
+	if (curr_lexer->next == 0)
+		return (0);
 	while (curr_lexer->next != 0)
 	{
 		if (curr_lexer->type != CMD)
 			break ;
 		curr_lexer = curr_lexer->next;
 	}
-	/*if (curr_lexer->next != 0)
-	{
-		ft_print_error(g_uni.err_pipe[1], "cd", 0, \
-		"too many arguments");
-		return (1);
-	}*/
 	if ((curr_lexer->str)[0] == '/')
 		return (handle_absolute(curr_lexer));
 	else
