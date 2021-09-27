@@ -8,9 +8,7 @@ t_lexer	*delete_red(t_parser *curr_parser, t_lexer *curr_lexer)
 	if (curr_parser->start == curr_lexer)
 	{
 		if (g_uni.lexer_list == curr_lexer)
-		{
 			g_uni.lexer_list = curr_lexer->next->next;
-		}
 		curr_parser->start = curr_lexer->next->next;
 	}
 	else

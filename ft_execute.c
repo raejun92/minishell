@@ -42,7 +42,6 @@ int wait)
 		{
 			child_stat = ft_execute_builtin(curr_parser);
 			g_uni.exit_status = child_stat;
-			*prev_in = -1;
 		}
 		else
 			g_uni.exit_status = WEXITSTATUS(child_stat);

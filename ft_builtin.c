@@ -39,7 +39,7 @@ int	ft_is_builtin(t_parser *curr_parser)
 	if (curr_lexer == 0)
 		return (1);
 	if (ft_strcmp(curr_lexer->str, "echo") == 0)
-		return (1);
+		return (0);
 	else if (ft_strcmp(curr_lexer->str, "cd") == 0)
 		return (1);
 	else if (ft_strcmp(curr_lexer->str, "pwd") == 0)
