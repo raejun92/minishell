@@ -34,19 +34,6 @@ typedef struct s_lexer
 	struct s_lexer		*next;
 }t_lexer;
 
-// echo -n "This is an example" | cat -e > file1 | cat < file1 > file2
-/*
-			pipe(1)
-	echo~           pipe(2)
-	             red        red
-				cat          red
-				            cat
-*/
-// > "abc"
-// >(red) -> "abc"(arg)
-// echo(cmd) -> -n(opt) -> "This is "(arg)
-// "|"(pipe)
-// -> cat(cmd) -> <(red) stdin out
 typedef struct s_parser
 {
 	t_lexer *start;
@@ -116,7 +103,7 @@ t_env		*new_env(void);
 t_env		*get_env(char *key);
 void		save_env_variable(t_env *env, char *envp);
 void		ft_env(char **envp);
-int			print_envp(t_parser *parser);
+int			print_env(t_parser *parser);
 
 /* ft_pwd.c */
 int			print_pwd(void);
@@ -150,17 +137,17 @@ int			ft_isdigit(int c);
 
 /* ft_export.c */
 int			ft_export(t_parser *curr_parser);
-void		print_export(void);
+int			print_export(void);
 
 /* ft_export2.c */
 void		init_env_check(void);
 int			count_equal(char *str);
 int			check_export_key(char *str);
-void		handle_is_not_equal(char *str);
+int			handle_is_not_equal(char *str);
 int			check_export_valid(char *str);
 
 /* ft_export3.c */
-void		handle_is_equal(char *str, t_env *tmp);
+int			handle_is_equal(char *str, t_env *tmp);
 
 /* ft_unset.c */
 int			ft_unset(t_parser *parser);

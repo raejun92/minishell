@@ -43,8 +43,8 @@ static void	input_env_check(t_env *tmp, char *min)
 	}
 }
 
-//기능: env를 문자열 오름차순으로 출력, 리턴: void
-void	print_export(void)
+//기능: env를 문자열 오름차순으로 출력, 리턴: int(0)
+int	print_export(void)
 {
 	t_env	*tmp;
 	t_env	*min;
@@ -68,27 +68,29 @@ void	print_export(void)
 		input_env_check(g_uni.env_list, min->key);
 	}
 	init_env_check();
+	return (0);
 }
 
 int	ft_export(t_parser *curr_parser)
 {
 	t_lexer	*curr_lexer;
+	int		ret;
 
 	curr_lexer = curr_parser->start->next;
 	if (curr_parser->start->next == NULL)
-		print_export();
+		ret = print_export();
 	else
 	{
 		while (curr_lexer != 0)
 		{
 			if (!count_equal(curr_lexer->str))
-				handle_is_not_equal(curr_lexer->str);
+				ret = handle_is_not_equal(curr_lexer->str);
 			else
-			{
-				handle_is_equal(curr_lexer->str, g_uni.env_list);
-			}
+				ret = handle_is_equal(curr_lexer->str, g_uni.env_list);
+			if (ret == 1)
+				break ;
 			curr_lexer = curr_lexer->next;
 		}
 	}
-	return (0);
+	return (ret);
 }

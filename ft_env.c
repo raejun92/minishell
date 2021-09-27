@@ -75,8 +75,8 @@ void	ft_env(char **envp)
 	}
 }
 
-// 기능: envp 출력, 리턴: void
-int	print_envp(t_parser *parser)
+// 기능: env 출력, 리턴: void
+int	print_env(t_parser *parser)
 {
 	t_env	*tmp;
 

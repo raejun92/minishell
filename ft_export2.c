@@ -45,19 +45,22 @@ int	check_export_key(char *str)
 	return (0);
 }
 
-// 기능: export에 "="없이 들어올 때(export abc) 새로운 env 생성 및 추가, 리턴: void 
-void	handle_is_not_equal(char *str)
+// 기능: export에 "="없이 들어올 때(export abc) 새로운 env 생성 및 추가, 리턴: int(에러 1 아니면 0) 
+int	handle_is_not_equal(char *str)
 {
 	t_env	*tmp;
 	t_env	*new;
 
 	tmp = g_uni.env_list;
 	if (check_export_valid(str))
+	{
 		printf("bash: export: `%s': not a valid identifier\n", str);
+		return (1);
+	}
 	else
 	{
 		if (check_export_key(str))
-			return ;
+			return (0);
 		new = new_env();
 		new->key = (char *)malloc(sizeof(char) * (ft_strlen(str) + 1));
 		ft_strlcpy(new->key, str, ft_strlen(str) + 1);
@@ -65,6 +68,7 @@ void	handle_is_not_equal(char *str)
 			tmp = tmp->next;
 		tmp->next = new;
 	}
+	return (0);
 }
 
 // 기능: 문자열 처음에 알파벳 또는 '_'인지 확인하고 문자열중 알파벳, 숫자, '_'인지 확인, 리턴: int(알파벳 또는 _ 아니면 1, 맞으면 0)
@@ -78,7 +82,7 @@ int	check_export_valid(char *str)
 	while (str[++i] != '\0')
 	{
 		if (!(ft_isalpha(str[i]) || str[i] == '_' || ft_isdigit(str[i]) || \
-		str[i] == '=')) // 처음 이후 숫자 가능
+		str[i] == '=' || str[i] == '-')) // 처음 이후 숫자 가능
 			return (1);
 	}
 	return (0);

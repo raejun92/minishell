@@ -62,7 +62,7 @@ int	main(int argc, char **argv, char **envp)
 		{
 			ft_lexer(input);
 			ft_parser();
-			view_parser_list();
+			// view_parser_list();
 			if (g_uni.parser_list != 0)
 				ft_execute();
 			// 실행(fork)
