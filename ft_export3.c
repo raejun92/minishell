@@ -45,6 +45,7 @@ static void handle_is_equal2(char *str, t_env *new, t_env *tmp)
 	tmp->next = new;
 }
 
+// 기능: AAA=hame과 같은 동작 처리, 리턴: int(에러 1, 정상 0)
 int	handle_is_equal(char *str, t_env *tmp)
 {
 	t_env	*new;

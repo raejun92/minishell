@@ -75,10 +75,11 @@ int	handle_heredoc(t_parser *curr_parser, t_lexer *curr_lexer)
 		input = readline("> ");
 		if (!input || ft_strcmp(input, curr_lexer->next->str) == 0)
 			break ;
-		write(curr_parser->pipe[1], input, strlen(input));
+		write(curr_parser->pipe[1], input, ft_strlen(input));
 		write(curr_parser->pipe[1], "\n", 1);
 		free(input);
 	}
+	free(input);
 	delete_red(curr_parser, curr_lexer);
 	new = new_parser();
 	new->start = curr_parser->start;

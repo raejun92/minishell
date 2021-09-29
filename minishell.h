@@ -3,6 +3,7 @@
 
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
@@ -12,7 +13,7 @@
 # include <dirent.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include "string.h"
+# include <string.h>
 
 # define CMD 0
 # define ARG 1
@@ -131,6 +132,7 @@ void		ft_print_error(int fd, char *cmd, char *arg, char *msg);
 /* ft_utils2.c */
 int			ft_isalpha(int c);
 int			ft_isdigit(int c);
+char		*ft_strdup(const char *s1);
 
 /* ft_export.c */
 int			ft_export(t_parser *curr_parser);
@@ -148,4 +150,17 @@ int			handle_is_equal(char *str, t_env *tmp);
 
 /* ft_unset.c */
 int			ft_unset(t_parser *parser);
+
+/* ft_execve.c */
+int			ft_execve(t_parser *curr_parser);
+
+/* ft_split.c */
+char		**ft_split(char const *s, char c);
+char		**free_double_pointer(char **str);
+
+/* ft_execve.c */
+char 		*get_file(char *cmd);
+char 		**get_argv(t_lexer *curr_lexer);
+char		**get_envp(void);
+
 #endif
