@@ -13,38 +13,43 @@ int	execute_parser(t_parser *curr_parser)
 
 void	handle_child(t_parser *curr_parser, int prev_in)
 {
+	int	ret;
+
+	if (ft_strcmp(curr_parser->start->str, "sleep") == 0)
+		sleep(2);
 	if (curr_parser->next == 0 && ft_is_builtin(curr_parser) && \
 	g_uni.parser_list->start == curr_parser->start)
-		exit(7);
-	if (curr_parser->fd_in > 2)
-		dup2(curr_parser->fd_in, 0);
-	else if (prev_in > 0)
-		dup2(prev_in, 0);
-	if (prev_in > 0)
-		close(prev_in);
-	if (curr_parser->fd_out < 2)
-		dup2(curr_parser->pipe[1], 1);
+		ret = 0;
 	else
-		dup2(curr_parser->fd_out, 1);
-	exit(execute_parser(curr_parser));
+	{
+		if (curr_parser->fd_in > 2)
+			dup2(curr_parser->fd_in, 0);
+		else if (prev_in > 0)
+			dup2(prev_in, 0);
+		if (prev_in > 0)
+			close(prev_in);
+		if (curr_parser->fd_out < 2)
+			dup2(curr_parser->pipe[1], 1);
+		else
+			dup2(curr_parser->fd_out, 1);
+		ret = execute_parser(curr_parser);
+	}
+	exit(ret);
 }
 
-void	handle_parent(t_parser *curr_parser, int child_pid, int *prev_in, \
+void	handle_parent(t_parser *curr_parser, int *prev_in, \
 int wait)
 {
 	int			child_stat;
 
 	if (wait)
 	{
-		waitpid(child_pid, &child_stat, 0);
-		if (curr_parser->next == 0 && WEXITSTATUS(child_stat) == 7 && \
+		if (curr_parser->next == 0 && ft_is_builtin(curr_parser) && \
 		g_uni.parser_list->start == curr_parser->start)
 		{
 			child_stat = ft_execute_builtin(curr_parser);
 			g_uni.exit_status = child_stat;
 		}
-		else
-			g_uni.exit_status = WEXITSTATUS(child_stat);
 		return ;
 	}
 	close(curr_parser->pipe[1]);
@@ -59,12 +64,26 @@ void	handle_remain(int prev_in)
 {
 	char		buffer[256];
 	int			count;
+	t_parser	*curr_parser;
+	int			child_stat;
 
 	if (prev_in > 0)
 	{
 		count = read(prev_in, buffer, sizeof(buffer));
 		close(prev_in);
 		write(1, buffer, count);
+	}
+	curr_parser = g_uni.parser_list;
+	while (curr_parser != 0)
+	{
+		if (curr_parser->pid != 0)
+		{
+			waitpid(curr_parser->pid, &child_stat, 0);
+			if (curr_parser->next == 0 && !(ft_is_builtin(curr_parser) && \
+				g_uni.parser_list->start == curr_parser->start))
+				g_uni.exit_status = WEXITSTATUS(child_stat);
+		}
+		curr_parser = curr_parser->next;
 	}
 }
 
@@ -87,9 +106,10 @@ void	ft_execute(void)
 				return (ft_error(0));
 			if (curr_pid == 0)
 				handle_child(curr_parser, prev_in);
-			handle_parent(curr_parser, curr_pid, &prev_in, 1);
+			curr_parser->pid = curr_pid;
+			handle_parent(curr_parser, &prev_in, 1);
 		}
-		handle_parent(curr_parser, curr_pid, &prev_in, 0);
+		handle_parent(curr_parser, &prev_in, 0);
 		curr_parser = curr_parser->next;
 	}
 	handle_remain(prev_in);

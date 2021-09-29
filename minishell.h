@@ -12,7 +12,7 @@
 # include <dirent.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include "string.h"
+# include <termios.h>
 
 # define CMD 0
 # define ARG 1
@@ -36,12 +36,13 @@ typedef struct s_lexer
 
 typedef struct s_parser
 {
-	t_lexer *start;
-	t_lexer *end;
+	t_lexer 		*start;
+	t_lexer 		*end;
 	int				pipe[2];
 	int				fd_in;
 	int				fd_out;
 	struct s_parser	*next;
+	size_t			pid;
 }t_parser;
 
 typedef struct s_env
@@ -148,4 +149,8 @@ int			handle_is_equal(char *str, t_env *tmp);
 
 /* ft_unset.c */
 int			ft_unset(t_parser *parser);
+
+/* ft_signal.c */
+void	ft_signal(int signum);
+
 #endif

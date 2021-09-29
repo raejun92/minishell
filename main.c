@@ -8,6 +8,8 @@ void	ft_error(int exit_status)
 int	ft_init_uni(void)
 {
 	g_uni.lexer_list = 0;
+	g_uni.parser_list = 0;
+	g_uni.exit_status = 0;
 	return (0);
 }
 
@@ -40,23 +42,32 @@ int	ft_reset_uni(void)
 
 int	main(int argc, char **argv, char **envp)
 {
-	// 변수 초기화
 	char	*input;
 	t_env	*curr_env;
 	t_env	*temp_env;
+	struct termios old_term;
+	struct termios new_term;
+
 
 	if (argc == 0 || argv == 0)
 		return (0);
 	ft_init_uni();
-	// 환경변수 저장
 	ft_env(envp);
-	// 입력받은 명령어 실행
+	tcgetattr(0, &old_term);
+	tcgetattr(0, &new_term);
+	new_term.c_lflag &= ~(ICANON);
+	new_term.c_cc[VMIN] = 1;
+	new_term.c_cc[VTIME] = 0;
+	tcsetattr(0, TCSANOW, &new_term);
+	signal(SIGINT, ft_signal);
 	while (1)
 	{
-		// 입력 받기 -> readline
 		input = readline("minishell$ ");
-		/*if (!input)
-			break ; // EOF 일때 탈출*/
+		if (!input)
+		{
+			printf("exit\n");
+			break ;
+		}
 		add_history(input); // 출력한 문자열을 저장하여 방향키 up, down으로 확인 가능
 		if (!ft_syntax_checker(input))
 		{
@@ -65,14 +76,6 @@ int	main(int argc, char **argv, char **envp)
 			// view_parser_list();
 			if (g_uni.parser_list != 0)
 				ft_execute();
-			// 실행(fork)
-			// 환경변수 변환
-			// 절대경로/상대경로
-			// 파이프 마지막이 아니거나, 빌트인 명령어 -x > fork
-			// 파이프 마지막인데 빌트인 -> ?
-			// 파이프로 인풋 아웃풋 연결?
-
-			// 시그널 처리 -> 컨트롤 + 버튼 처리
 			ft_reset_uni();
 		}
 		free(input);
@@ -88,6 +91,6 @@ int	main(int argc, char **argv, char **envp)
 		curr_env = curr_env->next;
 		free(temp_env);
 	}
-	// 정리
-	return (0);
+	tcsetattr(0, TCSANOW, &old_term);
+	return (g_uni.exit_status);
 }

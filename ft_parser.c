@@ -30,6 +30,7 @@ t_parser	*new_parser(void)
 	parser->next = NULL;
 	parser->pipe[0] = 0;
 	parser->pipe[1] = 0;
+	parser->pid = 0;
 	return (parser);
 }
 
