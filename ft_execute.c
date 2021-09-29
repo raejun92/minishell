@@ -2,12 +2,17 @@
 
 int	execute_parser(t_parser *curr_parser)
 {
-	int	ret;
+	t_lexer	*curr_lexer;
+	int		ret;
 
+	curr_lexer = curr_parser->start;
 	ret = ft_execute_builtin(curr_parser);
 	if (ret != -1)
 		return (ret);
 	// execve ->
+	ret = execve(get_file(curr_lexer->str), get_argv(curr_lexer), get_envp());
+	if (ret == -1)
+		return (1);
 	return (0);
 }
 
@@ -97,8 +102,8 @@ void	ft_execute(void)
 	prev_in = -1;
 	while (curr_parser != 0)
 	{
-		if (pipe(curr_parser->pipe) != 0)
-			return (ft_error(0));
+		if (pipe(curr_parser->pipe) != 0) // 파이프가 있을 때만 만들어야 할듯
+		 	return (ft_error(0));
 		if (ft_check_red(curr_parser) == 1)
 		{
 			curr_pid = fork();

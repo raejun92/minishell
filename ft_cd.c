@@ -61,6 +61,32 @@ static int	handle_absolute(t_lexer *curr_lexer)
 	return (0);
 }
 
+void old_pwd(void)
+{
+	t_env	*new;
+	t_env	*tmp;
+	char	*path;
+
+	path = getcwd(NULL, 0);
+	tmp = g_uni.env_list;
+	if (check_export_key("OLDPWD"))
+	{
+		new = get_env("OLDPWD");
+		free(new->val);
+		new->val = ft_strdup(path);
+		free(path);
+	}
+	else
+	{
+		new = new_env();
+		new->key = ft_strdup("OLDPWD");
+		new->val = ft_strdup(path);
+		while (tmp->next != NULL)
+			tmp = tmp->next;
+		tmp->next = new;
+	}
+}
+
 int	ft_cd(t_parser *curr_parser)
 {
 	t_lexer	*curr_lexer;
@@ -74,6 +100,7 @@ int	ft_cd(t_parser *curr_parser)
 			break ;
 		curr_lexer = curr_lexer->next;
 	}
+	old_pwd();
 	if ((curr_lexer->str)[0] == '/')
 		return (handle_absolute(curr_lexer));
 	else
