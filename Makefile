@@ -13,4 +13,4 @@ INCLUDES=./
 all: $(NAME)
 
 $(NAME): $(SRCS)
-	gcc -I. $(FLAGS) $(SRCS) -o $(NAME) -lreadline
+	gcc -I. $(FLAGS) $(SRCS) -o $(NAME) -lreadline -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include
