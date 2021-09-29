@@ -61,6 +61,7 @@ typedef struct s_uni
 	t_parser	*parser_list;
 	int			exit_status;
 	t_env		*env_list;
+	char		*input;
 	// 환경변수 리스트
 	// tokenizer 리스트 ?
 	// lexer 리스트

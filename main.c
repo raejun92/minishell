@@ -10,6 +10,7 @@ int	ft_init_uni(void)
 	g_uni.lexer_list = 0;
 	g_uni.parser_list = 0;
 	g_uni.exit_status = 0;
+	g_uni.input = 0;
 	return (0);
 }
 
@@ -37,17 +38,17 @@ int	ft_reset_uni(void)
 	}
 	g_uni.lexer_list = 0;
 	g_uni.parser_list = 0;
+	g_uni.input = 0;
 	return (0);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	*input;
-	t_env	*curr_env;
-	t_env	*temp_env;
-	struct termios old_term;
-	struct termios new_term;
-
+	char			*input;
+	t_env			*curr_env;
+	t_env			*temp_env;
+	struct termios	old_term;
+	struct termios	new_term;
 
 	if (argc == 0 || argv == 0)
 		return (0);
@@ -55,11 +56,12 @@ int	main(int argc, char **argv, char **envp)
 	ft_env(envp);
 	tcgetattr(0, &old_term);
 	tcgetattr(0, &new_term);
-	new_term.c_lflag &= ~(ICANON);
+	new_term.c_lflag &= ~(ICANON | ECHOCTL);
 	new_term.c_cc[VMIN] = 1;
 	new_term.c_cc[VTIME] = 0;
 	tcsetattr(0, TCSANOW, &new_term);
 	signal(SIGINT, ft_signal);
+	signal(SIGTSTP, ft_signal);
 	while (1)
 	{
 		input = readline("minishell$ ");
@@ -68,6 +70,7 @@ int	main(int argc, char **argv, char **envp)
 			printf("exit\n");
 			break ;
 		}
+		g_uni.input = input;
 		add_history(input); // 출력한 문자열을 저장하여 방향키 up, down으로 확인 가능
 		if (!ft_syntax_checker(input))
 		{
