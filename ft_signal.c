@@ -23,6 +23,12 @@ void	sigquit_handler(void)
 	t_parser	*curr_parser;
 
 	curr_parser = g_uni.parser_list;
+	if (g_uni.parser_list == 0)
+	{
+		rl_on_new_line();
+		rl_redisplay();
+		return ;
+	}
 	while (curr_parser != 0)
 	{
 		if (curr_parser->pid != 0)
@@ -30,7 +36,7 @@ void	sigquit_handler(void)
 		curr_parser = curr_parser->next;
 	}
 	rl_replace_line("", 0);
-	printf("\n");
+	printf("Quit: 3\n");
 	if (g_uni.parser_list == 0)
 		rl_on_new_line();
 	rl_redisplay();

@@ -67,7 +67,7 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		new_term.c_lflag &= ~(ICANON | ECHOCTL);
-		tcsetattr(0, TCSADRAIN, &new_term);
+		tcsetattr(0, TCSANOW, &new_term);
 		input = readline("minishell$ ");
 		if (!input)
 		{
