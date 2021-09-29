@@ -5,40 +5,52 @@ void	sigint_handler(void)
 	t_parser	*curr_parser;
 
 	curr_parser = g_uni.parser_list;
-	if (g_uni.parser_list != 0)
-		printf("^C");
 	while (curr_parser != 0)
 	{
 		if (curr_parser->pid != 0)
 			kill(curr_parser->pid, SIGKILL);
 		curr_parser = curr_parser->next;
 	}
-	if (g_uni.parser_list != 0)
-		rl_replace_line("", 1);
+	rl_replace_line("", 0);
 	printf("\n");
 	if (g_uni.parser_list == 0)
 		rl_on_new_line();
 	rl_redisplay();
 }
 
-void	sigtstp_hanlder(void)
+void	sigquit_handler(void)
 {
 	t_parser	*curr_parser;
-	static int	count = 0;
 
 	curr_parser = g_uni.parser_list;
-	if (g_uni.parser_list == 0)
-		return ;
-	printf("^Z");
-	printf("[%d]+  Stopped\t\t\t%s", count++, g_uni.input);
 	while (curr_parser != 0)
 	{
 		if (curr_parser->pid != 0)
-			kill(curr_parser->pid, SIGSTOP);
+			kill(curr_parser->pid, SIGQUIT);
 		curr_parser = curr_parser->next;
 	}
-	rl_replace_line("", 1);
+	rl_replace_line("", 0);
 	printf("\n");
+	if (g_uni.parser_list == 0)
+		rl_on_new_line();
+	rl_redisplay();
+}
+
+void	sigtstp_handler(void)
+{
+	t_parser	*curr_parser;
+
+	curr_parser = g_uni.parser_list;
+	while (curr_parser != 0)
+	{
+		if (curr_parser->pid != 0)
+			kill(curr_parser->pid, SIGTERM);
+		curr_parser = curr_parser->next;
+	}
+	rl_replace_line("", 0);
+	printf("\n");
+	if (g_uni.parser_list == 0)
+		rl_on_new_line();
 	rl_redisplay();
 }
 
@@ -46,6 +58,8 @@ void	ft_signal(int signum)
 {
 	if (signum == SIGINT)
 		sigint_handler();
+	else if (signum == SIGQUIT)
+		sigquit_handler();
 	else if (signum == SIGTSTP)
-		sigtstp_hanlder();
+		sigtstp_handler();
 }

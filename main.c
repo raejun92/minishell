@@ -1,7 +1,8 @@
 #include "minishell.h"
-
+	struct termios	old_term;
 void	ft_error(int exit_status)
 {
+	tcsetattr(0, TCSANOW, &old_term);
 	exit(exit_status);
 }
 
@@ -47,7 +48,6 @@ int	main(int argc, char **argv, char **envp)
 	char			*input;
 	t_env			*curr_env;
 	t_env			*temp_env;
-	struct termios	old_term;
 	struct termios	new_term;
 
 	if (argc == 0 || argv == 0)
@@ -62,14 +62,20 @@ int	main(int argc, char **argv, char **envp)
 	tcsetattr(0, TCSANOW, &new_term);
 	signal(SIGINT, ft_signal);
 	signal(SIGTSTP, ft_signal);
+	signal(SIGQUIT, ft_signal);
+	input = 0;
 	while (1)
 	{
+		new_term.c_lflag &= ~(ICANON | ECHOCTL);
+		tcsetattr(0, TCSADRAIN, &new_term);
 		input = readline("minishell$ ");
 		if (!input)
 		{
-			printf("exit\n");
+			printf("\x1b[1A\033[11Cexit\n");
 			break ;
 		}
+		new_term.c_lflag |= (ICANON | ECHOCTL);
+		tcsetattr(0, TCSANOW, &new_term);
 		g_uni.input = input;
 		add_history(input); // 출력한 문자열을 저장하여 방향키 up, down으로 확인 가능
 		if (!ft_syntax_checker(input))

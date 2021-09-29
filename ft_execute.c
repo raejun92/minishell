@@ -54,8 +54,8 @@ int wait)
 		}
 		return ;
 	}
-	close(curr_parser->pipe[1]);
 	*prev_in = curr_parser->pipe[0];
+	close(curr_parser->pipe[1]);
 	if (curr_parser->fd_in > 2)
 		close(curr_parser->fd_in);
 	if (curr_parser->fd_out > 2)
@@ -72,14 +72,11 @@ void	handle_remain(void)
 	{
 		if (curr_parser->pid != 0)
 		{
-			waitpid(curr_parser->pid, &child_stat, WUNTRACED);
+			waitpid(curr_parser->pid, &child_stat, 0);
 			if (curr_parser->next == 0 && !(ft_is_builtin(curr_parser) && \
 				g_uni.parser_list->start == curr_parser->start))
 			{
-				if (WIFSTOPPED(child_stat))
-					g_uni.exit_status = 146;
-				else if (WIFEXITED(child_stat))
-					g_uni.exit_status = WEXITSTATUS(child_stat);
+				g_uni.exit_status = WEXITSTATUS(child_stat);
 			}
 		}
 		curr_parser = curr_parser->next;
