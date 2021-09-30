@@ -70,9 +70,10 @@ void	ft_parser(void)
 		if (i == parser_cnt)
 			while (cur_lexer->next != NULL)
 				cur_lexer = cur_lexer->next;
-		while (cur_lexer->next != 0 && cur_lexer->next->type != PIPE)
-			cur_lexer = cur_lexer->next;
-		parser->end = cur_lexer;
+		else
+			while (cur_lexer->next->type != PIPE)
+				cur_lexer = cur_lexer->next;
+		parser->end = cur_lexer->next;
 		if (i != parser_cnt)
 			cur_lexer = cur_lexer->next->next; // pipe위치에서 한 번 이동
 		add_parser(parser);

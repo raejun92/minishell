@@ -52,6 +52,7 @@ int	handle_is_not_equal(char *str)
 	t_env	*new;
 
 	tmp = g_uni.env_list;
+	
 	if (check_export_valid(str))
 	{
 		printf("bash: export: `%s': not a valid identifier\n", str);
@@ -77,12 +78,13 @@ int	check_export_valid(char *str)
 	int	i;
 
 	i = 0;
-	if (!(ft_isalpha(str[i]) || str[i] == '_')) // 숫자는 처음에 못들어옴
+	if (!(ft_isalpha(str[i]) || str[i] == '_' || str[i] == '/' || str[i] == '.' || str[i] == ':')) // 숫자는 처음에 못들어옴
 			return (1);
 	while (str[++i] != '\0')
 	{
 		if (!(ft_isalpha(str[i]) || str[i] == '_' || ft_isdigit(str[i]) || \
-		str[i] == '=' || str[i] == '-')) // 처음 이후 숫자 가능
+		str[i] == '=' || str[i] == '-' || str[i] == '/' || str[i] || str[i] \
+		== '.' || str[i] == ':')) // 처음 이후 숫자 가능
 			return (1);
 	}
 	return (0);

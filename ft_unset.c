@@ -48,7 +48,7 @@ int	ft_unset(t_parser *parser)
 	while (curr_lexer != 0)
 	{
 		if (check_unset_valid(curr_lexer->str)) {
-			printf("bash: unset: %s: not a valid identifier\n", \
+			printf("bash: unset: `%s': not a valid identifier\n", \
 			curr_lexer->str);
 			return (1);
 		}

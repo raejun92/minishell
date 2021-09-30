@@ -80,6 +80,7 @@ int	ft_exit(t_parser *curr_parser)
 		{
 			if (!is_digit(curr_lexer->str) || !is_in_range(curr_lexer->str))
 			{
+				printf("exit\n");
 				ft_print_error(2, "exit", curr_lexer->str, \
 		"numeric argument required");
 				exit(255);
@@ -91,7 +92,10 @@ int	ft_exit(t_parser *curr_parser)
 		curr_lexer = curr_lexer->next;
 	}
 	if (curr_lexer == 0 || curr_lexer->next == 0)
+	{
+		printf("exit\n");
 		exit(status);
+	}
 	ft_print_error(2, "exit", 0, "too many arguments");
 	return (1);
 }

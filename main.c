@@ -1,8 +1,7 @@
 #include "minishell.h"
-	struct termios	old_term;
+
 void	ft_error(int exit_status)
 {
-	tcsetattr(0, TCSANOW, &old_term);
 	exit(exit_status);
 }
 
@@ -48,6 +47,7 @@ int	main(int argc, char **argv, char **envp)
 	char			*input;
 	t_env			*curr_env;
 	t_env			*temp_env;
+	struct termios	old_term;
 	struct termios	new_term;
 
 	if (argc == 0 || argv == 0)
@@ -82,7 +82,7 @@ int	main(int argc, char **argv, char **envp)
 		{
 			ft_lexer(input);
 			ft_parser();
-			// view_parser_list();
+			//view_parser_list();
 			if (g_uni.parser_list != 0)
 				ft_execute();
 			ft_reset_uni();

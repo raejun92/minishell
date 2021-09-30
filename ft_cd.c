@@ -38,11 +38,16 @@ static int	handle_relative(t_lexer *curr_lexer)
 	}
 	new_path = concat_path(curr_path, curr_lexer->str);
 	if (!new_path)
+	{
+		free(curr_path);
 		return (1);
+	}
 	if (chdir(new_path) == -1)
 	{
 		ft_print_error(2, "cd", curr_lexer->str, \
 	strerror(errno));
+		free(curr_path);
+		free(new_path);
 		return (1);
 	}
 	free(curr_path);
@@ -84,6 +89,7 @@ void old_pwd(void)
 		while (tmp->next != NULL)
 			tmp = tmp->next;
 		tmp->next = new;
+		free(path);
 	}
 }
 

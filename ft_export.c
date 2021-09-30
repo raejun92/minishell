@@ -81,7 +81,7 @@ int	ft_export(t_parser *curr_parser)
 		ret = print_export();
 	else
 	{
-		while (curr_lexer != 0)
+		while (curr_lexer != curr_parser->end)
 		{
 			if (!count_equal(curr_lexer->str))
 				ret = handle_is_not_equal(curr_lexer->str);

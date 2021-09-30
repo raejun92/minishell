@@ -81,7 +81,15 @@ void	handle_remain(void)
 			if (curr_parser->next == 0 && !(ft_is_builtin(curr_parser) && \
 				g_uni.parser_list->start == curr_parser->start))
 			{
-				g_uni.exit_status = WEXITSTATUS(child_stat);
+				if (WIFSIGNALED(child_stat) && WTERMSIG(child_stat) == 2)
+					g_uni.exit_status = 130;
+				else if (WIFSIGNALED(child_stat) && WTERMSIG(child_stat) == 3)
+				{
+					g_uni.exit_status = 131;
+					printf("Quit: 3\n");
+				}
+				else
+					g_uni.exit_status = WEXITSTATUS(child_stat);
 			}
 		}
 		curr_parser = curr_parser->next;

@@ -73,10 +73,7 @@ char **get_argv(t_lexer *curr_lexer, t_lexer *end_lexer, int i)
 		i++;
 		tmp = tmp->next;
 	}
-	str[i] = malloc(sizeof(char) * (ft_strlen(tmp->str) + 1));
-	ft_strlcpy(str[i], tmp->str, ft_strlen(tmp->str) + 1);
-	tmp = tmp->next;
-	str[i + 1] = NULL;
+	str[i] = NULL;
 	return (str);
 }
 
