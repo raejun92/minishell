@@ -8,9 +8,12 @@ ft_export3.c ft_cd.c ft_execve.c ft_split.c ft_signal.c
 OBJS=$(SRCS:.c=.o)
 
 FLAGS=-Wall -Wextra -Werror
+LDFLAGS="-L/usr/local/opt/readline/lib"
+CPPFLAGS="-I/usr/local/opt/readline/include"
 INCLUDES=./
 
 all: $(NAME)
 
 $(NAME): $(SRCS)
-	gcc -I. $(FLAGS) $(SRCS) -o $(NAME) -lreadline -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include
+# gcc -I. $(FLAGS) $(SRCS) -o $(NAME) -lreadline -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include
+	gcc -I. $(FLAGS) $(SRCS) -o $(NAME) -lreadline $(CPPFLAGS) $(LDFLAGS)

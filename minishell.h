@@ -14,7 +14,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <termios.h>
-# include <string.h>
+// # include <string.h>
 
 # define CMD 0
 # define ARG 1
@@ -136,6 +136,7 @@ void		ft_print_error(int fd, char *cmd, char *arg, char *msg);
 int			ft_isalpha(int c);
 int			ft_isdigit(int c);
 char		*ft_strdup(const char *s1);
+void	ft_putstr_fd(char *s, int fd);
 
 /* ft_export.c */
 int			ft_export(t_parser *curr_parser);
@@ -165,7 +166,7 @@ char		**free_double_pointer(char **str);
 
 /* ft_execve.c */
 char 		*get_file(char *cmd);
-char 		**get_argv(t_lexer *curr_lexer);
+char 		**get_argv(t_lexer *curr_lexer, t_lexer *end_lexer, int i);
 char		**get_envp(void);
 
 #endif

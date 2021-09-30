@@ -3,15 +3,20 @@
 int	execute_parser(t_parser *curr_parser)
 {
 	t_lexer	*curr_lexer;
+	t_lexer	*end_lexer;
 	int		ret;
 
 	curr_lexer = curr_parser->start;
+	end_lexer = curr_parser->end;
 	ret = ft_execute_builtin(curr_parser);
 	if (ret != -1)
 		return (ret);
-	ret = execve(get_file(curr_lexer->str), get_argv(curr_lexer), get_envp());
+	ret = execve(get_file(curr_lexer->str), get_argv(curr_lexer, end_lexer, 0), get_envp());
 	if (ret == -1)
-		return (1);
+	{
+		ft_print_error(2, curr_lexer->str, 0, "command not found");
+		return (127);
+	}
 	return (0);
 }
 

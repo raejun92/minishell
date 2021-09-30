@@ -51,16 +51,14 @@ char *get_file(char *cmd)
 }
 
 // 기능: 입력한 명령어를 char **로 변환, 리턴: char**(입력 명령어) 
-char **get_argv(t_lexer *curr_lexer)
+char **get_argv(t_lexer *curr_lexer, t_lexer *end_lexer, int i)
 {
 	char	**str;
 	t_lexer	*tmp;
 	int		cnt;
-	int		i;
 
 	tmp = curr_lexer;
 	cnt = 0;
-	i = 0;
 	while (tmp != 0)
 	{
 		cnt++;
@@ -68,14 +66,17 @@ char **get_argv(t_lexer *curr_lexer)
 	}
 	str = malloc(sizeof(char *) * (cnt + 1));
 	tmp = curr_lexer;
-	while (tmp != 0)
+	while (tmp != end_lexer)
 	{
 		str[i] = malloc(sizeof(char) * (ft_strlen(tmp->str) + 1));
 		ft_strlcpy(str[i], tmp->str, ft_strlen(tmp->str) + 1);
 		i++;
 		tmp = tmp->next;
 	}
-	str[i] = NULL;
+	str[i] = malloc(sizeof(char) * (ft_strlen(tmp->str) + 1));
+	ft_strlcpy(str[i], tmp->str, ft_strlen(tmp->str) + 1);
+	tmp = tmp->next;
+	str[i + 1] = NULL;
 	return (str);
 }
 
