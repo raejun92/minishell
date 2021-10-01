@@ -21,11 +21,11 @@ int	execute_parser(t_parser *curr_parser)
 		}
 		ft_print_error(2, curr_lexer->str, 0, strerror(errno));
 		if (errno == EFAULT)
-			return (127);
-		else
 			return (126);
+		else
+			return (127);
 	}
-	if ((sb.st_mode & S_IXUSR) == 0)
+	if ((sb.st_mode & S_IXUSR) == 0 && curr_lexer->str[0] == '.')
 	{
 		ft_print_error(2, curr_lexer->str, 0, \
 	"Permission denied");
