@@ -67,7 +67,7 @@ int	ft_syntax_checker(char *input)
 			quote = 0;
 		if (!quote && is_delimiter(input[i], &del))
 		{
-			if (!(del < 2 || (del == 2 && input[i - 1] == input[i] && \
+			if (input[0] == '|' || !(del < 2 || (del == 2 && input[i - 1] == input[i] && \
 			(input[i] == '>' || input[i] == '<'))))
 				return (print_error(input, i, del));
 		}

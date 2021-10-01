@@ -20,7 +20,7 @@ int	ft_echo(t_parser *curr_parser)
 
 	flag = 0;
 	curr_lexer = curr_parser->start;
-	while (curr_lexer != 0)
+	while (curr_lexer != curr_parser->end)
 	{
 		if (curr_lexer->type == OPT && is_only_contain(curr_lexer->str, 'n', 1))
 			flag += 2;

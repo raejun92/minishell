@@ -18,7 +18,7 @@ t_lexer	*delete_red(t_parser *curr_parser, t_lexer *curr_lexer)
 			temp = temp->next;
 		temp->next = curr_lexer->next->next;
 	}
-	if (curr_parser->end == curr_lexer->next)
+	if (curr_parser->end == curr_lexer->next->next)
 		curr_parser->end = temp;
 	temp = curr_lexer->next->next;
 	free(curr_lexer->next->str);
@@ -98,7 +98,7 @@ int	ft_check_red(t_parser *curr_parser)
 
 	curr_lexer = curr_parser->start;
 	ret = 0;
-	while (curr_lexer != 0)
+	while (curr_lexer != curr_parser->end)
 	{
 		if (curr_lexer->type == RED)
 		{

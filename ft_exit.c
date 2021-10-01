@@ -5,7 +5,7 @@ static int	is_digit(char *str)
 	int	i;
 
 	i = 0;
-	if (str[i] == '-')
+	if (str[i] == '-' || str[i] == '+')
 		i++;
 	while (str[i] != '\0')
 	{
@@ -31,6 +31,8 @@ static int	is_in_range(char *str)
 		flag = -1;
 		i++;
 	}
+	else if (str[i] == '+')
+		i++;
 	while (str[i] != '\0')
 	{
 		temp = (num * 10 + (flag) * (str[i] - '0'));
@@ -59,6 +61,9 @@ static long long	stoll(char *str)
 		flag = -1;
 		i++;
 	}
+	else if (str[i] == '+')
+		i++;
+	
 	while (str[i] != '\0')
 	{
 		num = (num * 10 + (flag) * (str[i] - '0'));

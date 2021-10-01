@@ -44,12 +44,17 @@ static void	input_env_check(t_env *tmp, char *min)
 }
 
 //기능: env를 문자열 오름차순으로 출력, 리턴: int(0)
-int	print_export(void)
+int	print_export(t_parser *curr_parser)
 {
 	t_env	*tmp;
 	t_env	*min;
 	char	*max;
-	
+	int		fd;
+
+	if (curr_parser->fd_out > 2)
+		fd = curr_parser->fd_out;
+	else
+		fd = 1;
 	max = find_envp_max();
 	while (check_env())
 	{
@@ -62,9 +67,19 @@ int	print_export(void)
 			tmp = tmp->next;
 		}
 		if (min->val == NULL)
-			printf("declare -x %s\n", min->key);
+		{
+			write(fd, "declare -x ", ft_strlen( "declare -x "));
+			write(fd, min->key, ft_strlen(min->key));
+			write(fd, "\n", 1);
+		}
 		else
-			printf("declare -x %s=\"%s\"\n", min->key, min->val);
+		{
+			write(fd, "declare -x ", ft_strlen( "declare -x "));
+			write(fd, min->key, ft_strlen(min->key));
+			write(fd, "=\"", ft_strlen("=\""));
+			write(fd, min->val, ft_strlen(min->val));
+			write(fd, "\"\n", 2);
+		}
 		input_env_check(g_uni.env_list, min->key);
 	}
 	init_env_check();
@@ -77,8 +92,8 @@ int	ft_export(t_parser *curr_parser)
 	int		ret;
 
 	curr_lexer = curr_parser->start->next;
-	if (curr_parser->start->next == NULL)
-		ret = print_export();
+	if (curr_parser->start->next == curr_parser->end)
+		ret = print_export(curr_parser);
 	else
 	{
 		while (curr_lexer != curr_parser->end)

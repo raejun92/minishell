@@ -140,7 +140,7 @@ void	ft_putstr_fd(char *s, int fd);
 
 /* ft_export.c */
 int			ft_export(t_parser *curr_parser);
-int			print_export(void);
+int			print_export(t_parser *curr_parser);
 
 /* ft_export2.c */
 void		init_env_check(void);

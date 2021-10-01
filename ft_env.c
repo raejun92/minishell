@@ -80,7 +80,7 @@ int	print_env(t_parser *parser)
 {
 	t_env	*tmp;
 
-	if (parser->start->next != NULL)
+	if (parser->start->next != parser->end)
 	{
 		printf("env: %s: No such file or directory\n", \
 		parser->start->next->str);

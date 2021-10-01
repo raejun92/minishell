@@ -1,5 +1,32 @@
 #include "minishell.h"
 
+void set_pwd(char *type)
+{
+	t_env	*new;
+	t_env	*tmp;
+	char	*path;
+
+	path = getcwd(NULL, 0);
+	tmp = g_uni.env_list;
+	if (check_export_key(type))
+	{
+		new = get_env(type);
+		free(new->val);
+		new->val = ft_strdup(path);
+		free(path);
+	}
+	else
+	{
+		new = new_env();
+		new->key = ft_strdup(type);
+		new->val = ft_strdup(path);
+		while (tmp->next != NULL)
+			tmp = tmp->next;
+		tmp->next = new;
+		free(path);
+	}
+}
+
 char	*concat_path(char *curr_path, char *rel_path)
 {
 	char	*new_path;
@@ -52,6 +79,7 @@ static int	handle_relative(t_lexer *curr_lexer)
 	}
 	free(curr_path);
 	free(new_path);
+	set_pwd("PWD");
 	return (0);
 }
 
@@ -63,34 +91,8 @@ static int	handle_absolute(t_lexer *curr_lexer)
 	strerror(errno));
 		return (1);
 	}
+	set_pwd("PWD");
 	return (0);
-}
-
-void old_pwd(void)
-{
-	t_env	*new;
-	t_env	*tmp;
-	char	*path;
-
-	path = getcwd(NULL, 0);
-	tmp = g_uni.env_list;
-	if (check_export_key("OLDPWD"))
-	{
-		new = get_env("OLDPWD");
-		free(new->val);
-		new->val = ft_strdup(path);
-		free(path);
-	}
-	else
-	{
-		new = new_env();
-		new->key = ft_strdup("OLDPWD");
-		new->val = ft_strdup(path);
-		while (tmp->next != NULL)
-			tmp = tmp->next;
-		tmp->next = new;
-		free(path);
-	}
 }
 
 int	ft_cd(t_parser *curr_parser)
@@ -106,9 +108,11 @@ int	ft_cd(t_parser *curr_parser)
 			break ;
 		curr_lexer = curr_lexer->next;
 	}
-	old_pwd();
+	set_pwd("OLDPWD");
+	// home check '~' ''
 	if ((curr_lexer->str)[0] == '/')
 		return (handle_absolute(curr_lexer));
 	else
 		return (handle_relative(curr_lexer));
+	// pwd update
 }

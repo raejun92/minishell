@@ -5,12 +5,30 @@ int	execute_parser(t_parser *curr_parser)
 	t_lexer	*curr_lexer;
 	t_lexer	*end_lexer;
 	int		ret;
+	struct stat	sb;
 
 	curr_lexer = curr_parser->start;
 	end_lexer = curr_parser->end;
 	ret = ft_execute_builtin(curr_parser);
 	if (ret != -1)
 		return (ret);
+	if (stat(curr_lexer->str[0], &sb) == -1)
+		ft_error(2, "./test", )
+	if (curr_lexer->str[0] == '/')
+	{
+		if (chdir(curr_lexer->str) == -1)
+		{
+			ft_print_error(2, 0, curr_lexer->str, \
+	strerror(errno));
+		return (127);
+		}
+		else
+		{
+			ft_print_error(2, 0, curr_lexer->str, \
+	"is a directory");
+		return (126);			
+		}
+	}
 	ret = execve(get_file(curr_lexer->str), get_argv(curr_lexer, end_lexer, 0), get_envp());
 	if (ret == -1)
 	{
@@ -101,7 +119,6 @@ void	ft_execute(void)
 	t_parser	*curr_parser;
 	pid_t		curr_pid;
 	int			prev_in;
-
 	curr_parser = g_uni.parser_list;
 	prev_in = -1;
 	while (curr_parser != 0)

@@ -83,7 +83,7 @@ int	check_export_valid(char *str)
 	while (str[++i] != '\0')
 	{
 		if (!(ft_isalpha(str[i]) || str[i] == '_' || ft_isdigit(str[i]) || \
-		str[i] == '=' || str[i] == '-' || str[i] == '/' || str[i] || str[i] \
+		str[i] == '=' || str[i] == '/' || str[i] \
 		== '.' || str[i] == ':')) // 처음 이후 숫자 가능
 			return (1);
 	}
