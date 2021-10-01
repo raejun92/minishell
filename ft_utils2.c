@@ -14,6 +14,19 @@ int		ft_isdigit(int c)
 	return (0);
 }
 
+int	is_contain(char *str, char c)
+{
+	int	i;
+
+	i = -1;
+	while (str[++i] != '\0')
+	{
+		if (str[i] == c)
+			return (1);
+	}
+	return (0);
+}
+
 char	*ft_strdup(const char *s1)
 {
 	int		l;
@@ -21,7 +34,7 @@ char	*ft_strdup(const char *s1)
 	char	*str;
 
 	l = ft_strlen(s1);
-	str = (char *)malloc(sizeof(char) * (l + 1)); 
+	str = (char *)malloc(sizeof(char) * (l + 1));
 	if (!str)
 		return (0);
 	i = 0;

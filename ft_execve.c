@@ -32,6 +32,8 @@ char *get_file(char *cmd)
 	char		*path_cmd;
 	struct stat	s_stat;
 
+	if (cmd[0] == '/' || (cmd[0] == '.' && cmd[1] == '/'))
+		return cmd;
 	env_path = get_env("PATH");
 	path = ft_split(env_path->val, ':');
 	path_tmp = path;
@@ -50,7 +52,7 @@ char *get_file(char *cmd)
 	return (cmd);
 }
 
-// 기능: 입력한 명령어를 char **로 변환, 리턴: char**(입력 명령어) 
+// 기능: 입력한 명령어를 char **로 변환, 리턴: char**(입력 명령어)
 char **get_argv(t_lexer *curr_lexer, t_lexer *end_lexer, int i)
 {
 	char	**str;

@@ -136,7 +136,8 @@ void		ft_print_error(int fd, char *cmd, char *arg, char *msg);
 int			ft_isalpha(int c);
 int			ft_isdigit(int c);
 char		*ft_strdup(const char *s1);
-void	ft_putstr_fd(char *s, int fd);
+void		ft_putstr_fd(char *s, int fd);
+int			is_contain(char *str, char c);
 
 /* ft_export.c */
 int			ft_export(t_parser *curr_parser);

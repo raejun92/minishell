@@ -98,21 +98,37 @@ static int	handle_absolute(t_lexer *curr_lexer)
 int	ft_cd(t_parser *curr_parser)
 {
 	t_lexer	*curr_lexer;
+	char	*home_path;
 
 	curr_lexer = curr_parser->start;
-	if (curr_lexer->next == 0)
+	set_pwd("OLDPWD");
+	if (curr_lexer->next == curr_parser->end ||
+		(curr_lexer->next->str[0] == '~' && \
+		(curr_lexer->next->str[1] == '\0' || curr_lexer->next->str[1] == '/')))
+	{
+		if (curr_lexer->next == curr_parser->end)
+			home_path = concat_path(get_env("HOME")->val, "");
+		else
+			home_path = concat_path(get_env("HOME")->val, &curr_lexer->next->str[1]);
+		if (chdir(home_path) == -1)
+		{
+			ft_print_error(2, "cd", curr_lexer->str, \
+		strerror(errno));
+			free(home_path);
+			return (1);
+		}
+		free(home_path);
+		set_pwd("PWD");
 		return (0);
+	}
 	while (curr_lexer->next != 0)
 	{
 		if (curr_lexer->type != CMD)
 			break ;
 		curr_lexer = curr_lexer->next;
 	}
-	set_pwd("OLDPWD");
-	// home check '~' ''
 	if ((curr_lexer->str)[0] == '/')
 		return (handle_absolute(curr_lexer));
 	else
 		return (handle_relative(curr_lexer));
-	// pwd update
 }
