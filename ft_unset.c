@@ -1,22 +1,20 @@
 #include "minishell.h"
 
-// 기능: 문자열 처음에 알파벳 또는 '_'인지 확인하고 문자열중 알파벳, 숫자, '_'인지 확인, 리턴: int(알파벳 또는 _ 아니면 1, 맞으면 0)
 int	check_unset_valid(char *str)
 {
 	int	i;
 
 	i = 0;
-	if (!(ft_isalpha(str[i]) || str[i] == '_')) // 숫자는 처음에 못들어옴
+	if (!(ft_isalpha(str[i]) || str[i] == '_'))
 			return (1);
 	while (str[++i] != '\0')
 	{
-		if (!(ft_isalpha(str[i]) || str[i] == '_' || ft_isdigit(str[i]))) // 처음 이후 숫자 가능
+		if (!(ft_isalpha(str[i]) || str[i] == '_' || ft_isdigit(str[i])))
 			return (1);
 	}
 	return (0);
 }
 
-//기능: 환경변수 제거, 리턴: void
 void	remove_env(char *str)
 {
 	t_env	*curr_env;

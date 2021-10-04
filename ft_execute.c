@@ -27,33 +27,27 @@ int	execute_parser(t_parser *curr_parser)
 	}
 	if ((sb.st_mode & S_IXUSR) == 0 && curr_lexer->str[0] == '.')
 	{
-		ft_print_error(2, curr_lexer->str, 0, \
-	"Permission denied");
+		ft_print_error(2, curr_lexer->str, 0, "Permission denied");
 		return (126);
 	}
 	if ((sb.st_mode & S_IFMT) != S_IFREG)
 	{
 		if ((sb.st_mode & S_IFMT) == S_IFBLK)
-			ft_print_error(2, 0, curr_lexer->str, \
-	"is a block device");
+			ft_print_error(2, 0, curr_lexer->str, "is a block device");
 		else if ((sb.st_mode & S_IFMT) == S_IFSOCK)
-			ft_print_error(2, 0, curr_lexer->str, \
-	"is a socket");
+			ft_print_error(2, 0, curr_lexer->str, "is a socket");
 		else if ((sb.st_mode & S_IFMT) == S_IFLNK)
-			ft_print_error(2, 0, curr_lexer->str, \
-	"is a symbolic link");
+			ft_print_error(2, 0, curr_lexer->str, "is a symbolic link");
 		else if ((sb.st_mode & S_IFMT) == S_IFDIR)
-			ft_print_error(2, 0, curr_lexer->str, \
-	"is a directory");
+			ft_print_error(2, 0, curr_lexer->str, "is a directory");
 		else if ((sb.st_mode & S_IFMT) == S_IFCHR)
-			ft_print_error(2, 0, curr_lexer->str, \
-	"is a character device");
+			ft_print_error(2, 0, curr_lexer->str, "is a character device");
 		else if ((sb.st_mode & S_IFMT) == S_IFIFO)
-			ft_print_error(2, 0, curr_lexer->str, \
-	"is a FIFO/pipe");
+			ft_print_error(2, 0, curr_lexer->str, "is a FIFO/pipe");
 		return (126);
 	}
-	ret = execve(get_file(curr_lexer->str), get_argv(curr_lexer, end_lexer, 0), get_envp());
+	ret = execve(get_file(curr_lexer->str), \
+	get_argv(curr_lexer, end_lexer, 0), get_envp());
 	if (ret == -1)
 	{
 		ft_print_error(2, curr_lexer->str, 0, "command not found");
@@ -150,7 +144,7 @@ void	ft_execute(void)
 	prev_in = -1;
 	while (curr_parser != 0)
 	{
-		if (pipe(curr_parser->pipe) != 0) // 파이프가 있을 때만 만들어야 할듯
+		if (pipe(curr_parser->pipe) != 0)
 			return (ft_error(0));
 		if (ft_check_red(curr_parser) == 1)
 		{

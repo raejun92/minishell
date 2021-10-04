@@ -1,6 +1,5 @@
 #include "minishell.h"
 
-// 기능: pwd 출력, 리턴: void
 int	print_pwd(void)
 {
 	char	*path;

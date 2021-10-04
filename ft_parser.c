@@ -1,6 +1,5 @@
 #include "minishell.h"
 
-// 기능: lexer에 존재하는 pipe 개수, 리턴: pipe 개수(int)
 static int	get_pipe_count(void)
 {
 	t_lexer	*tmp;
@@ -17,7 +16,6 @@ static int	get_pipe_count(void)
 	return (cnt);
 }
 
-// 기능: parser 생성 및 초기화, 리턴: t_parser
 t_parser	*new_parser(void)
 {
 	t_parser	*parser;
@@ -34,7 +32,6 @@ t_parser	*new_parser(void)
 	return (parser);
 }
 
-// 기능: parser_list에 parser 추가, 리턴: void
 void	add_parser(t_parser *parser)
 {
 	t_parser	*temp;
@@ -50,7 +47,6 @@ void	add_parser(t_parser *parser)
 	}
 }
 
-// 기능: lexer를 pipe기준으로 나누어 parser에 저장, 리턴: void
 void	ft_parser(void)
 {
 	t_lexer		*cur_lexer;
@@ -80,7 +76,6 @@ void	ft_parser(void)
 	}
 }
 
-// 기능: 저장된 parser_list 출력, 리턴: void
 void	view_parser_list(void)
 {
 	t_parser	*viewer;

@@ -1,6 +1,5 @@
 #include "minishell.h"
 
-// 기능: env 생성 및 초기화, 리턴: t_env
 t_env	*new_env(void)
 {
 	t_env *env;
@@ -27,7 +26,6 @@ t_env	*get_env(char *key)
 	return (0);
 }
 
-// 기능: 환경변수의 key, value 저장, 리턴: void
 void	save_env_variable(t_env *env, char *envp)
 {
 	int	i;
@@ -39,7 +37,7 @@ void	save_env_variable(t_env *env, char *envp)
 	cnt = 0;
 	while (envp[i] != '\0')
 	{
-		if (envp[i] == '=' && cnt == 0) // a=a=a에서 앞의 =에서 잘라주기 위해 cnt추가
+		if (envp[i] == '=' && cnt == 0)
 		{
 			env->key = (char *)malloc(sizeof(char) * (i + 1));
 			ft_strlcpy(env->key, envp, i + 1);
@@ -52,7 +50,6 @@ void	save_env_variable(t_env *env, char *envp)
 	ft_strlcpy(env->val, &envp[tmp], (i - tmp + 1));
 }
 
-// 기능: 환경변수를 받아와 env_list 구성, 리턴: void
 void	ft_env(char **envp)
 {
 	t_env	*env;
@@ -75,7 +72,6 @@ void	ft_env(char **envp)
 	}
 }
 
-// 기능: env 출력, 리턴: void
 int	print_env(t_parser *parser)
 {
 	t_env	*tmp;

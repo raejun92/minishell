@@ -14,7 +14,6 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <termios.h>
-// # include <string.h>
 
 # define CMD 0
 # define ARG 1
@@ -62,10 +61,6 @@ typedef struct s_uni
 	int			exit_status;
 	t_env		*env_list;
 	char		*input;
-	// 환경변수 리스트
-	// tokenizer 리스트 ?
-	// lexer 리스트
-	// parser 리스트 ?
 }t_uni;
 
 t_uni	g_uni;
@@ -136,8 +131,8 @@ void		ft_print_error(int fd, char *cmd, char *arg, char *msg);
 int			ft_isalpha(int c);
 int			ft_isdigit(int c);
 char		*ft_strdup(const char *s1);
-void		ft_putstr_fd(char *s, int fd);
 int			is_contain(char *str, char c);
+void		util_export(t_env *min, int fd);
 
 /* ft_export.c */
 int			ft_export(t_parser *curr_parser);

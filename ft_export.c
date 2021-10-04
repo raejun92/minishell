@@ -66,20 +66,7 @@ int	print_export(t_parser *curr_parser)
 				min = tmp;
 			tmp = tmp->next;
 		}
-		if (min->val == NULL)
-		{
-			write(fd, "declare -x ", ft_strlen("declare -x "));
-			write(fd, min->key, ft_strlen(min->key));
-			write(fd, "\n", 1);
-		}
-		else
-		{
-			write(fd, "declare -x ", ft_strlen("declare -x "));
-			write(fd, min->key, ft_strlen(min->key));
-			write(fd, "=\"", ft_strlen("=\""));
-			write(fd, min->val, ft_strlen(min->val));
-			write(fd, "\"\n", 2);
-		}
+		util_export(min, fd);
 		input_env_check(g_uni.env_list, min->key);
 	}
 	init_env_check();

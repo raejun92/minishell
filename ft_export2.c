@@ -1,6 +1,5 @@
 #include "minishell.h"
 
-// 기능: env의 check를 모두 0으로 바꿈, 리턴: void
 void	init_env_check(void)
 {
 	t_env *tmp;
@@ -13,7 +12,6 @@ void	init_env_check(void)
 	}
 }
 
-// 기능: '='의 개수 확인(1개 이상이면 참), 리턴: int(=존재하면 1, 아니면 0)
 int	count_equal(char *str)
 {
 	int	i;
@@ -30,7 +28,6 @@ int	count_equal(char *str)
 	return (cnt);
 }
 
-// 기능: export에 key값이 존재하는지 확인, 리턴: int(존재하면 1, 아니면 0)
 int	check_export_key(char *str)
 {
 	t_env	*tmp;
@@ -45,7 +42,6 @@ int	check_export_key(char *str)
 	return (0);
 }
 
-// 기능: export에 "="없이 들어올 때(export abc) 새로운 env 생성 및 추가, 리턴: int(에러 1 아니면 0) 
 int	handle_is_not_equal(char *str)
 {
 	t_env	*tmp;
@@ -72,19 +68,19 @@ int	handle_is_not_equal(char *str)
 	return (0);
 }
 
-// 기능: 문자열 처음에 알파벳 또는 '_'인지 확인하고 문자열중 알파벳, 숫자, '_'인지 확인, 리턴: int(알파벳 또는 _ 아니면 1, 맞으면 0)
 int	check_export_valid(char *str)
 {
 	int	i;
 
 	i = 0;
-	if (!(ft_isalpha(str[i]) || str[i] == '_' || str[i] == '/' || str[i] == '.' || str[i] == ':')) // 숫자는 처음에 못들어옴
+	if (!(ft_isalpha(str[i]) || str[i] == '_' || str[i] == '/' || \
+	str[i] == '.' || str[i] == ':'))
 			return (1);
 	while (str[++i] != '\0')
 	{
 		if (!(ft_isalpha(str[i]) || str[i] == '_' || ft_isdigit(str[i]) || \
 		str[i] == '=' || str[i] == '/' || str[i] \
-		== '.' || str[i] == ':')) // 처음 이후 숫자 가능
+		== '.' || str[i] == ':'))
 			return (1);
 	}
 	return (0);
