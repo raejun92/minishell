@@ -1,10 +1,5 @@
 #include "minishell.h"
 
-void	ft_error(int exit_status)
-{
-	exit(exit_status);
-}
-
 int	ft_init_uni(void)
 {
 	g_uni.lexer_list = 0;
@@ -42,27 +37,10 @@ int	ft_reset_uni(void)
 	return (0);
 }
 
-int	main(int argc, char **argv, char **envp)
+static void infinite_main_loop(struct termios new_term)
 {
-	char			*input;
-	t_env			*curr_env;
-	t_env			*temp_env;
-	struct termios	old_term;
-	struct termios	new_term;
+	char	*input;
 
-	if (argc == 0 || argv == 0)
-		return (0);
-	ft_init_uni();
-	ft_env(envp);
-	tcgetattr(0, &old_term);
-	tcgetattr(0, &new_term);
-	new_term.c_lflag &= ~(ICANON | ECHOCTL);
-	new_term.c_cc[VMIN] = 1;
-	new_term.c_cc[VTIME] = 0;
-	tcsetattr(0, TCSANOW, &new_term);
-	signal(SIGINT, ft_signal);
-	signal(SIGTSTP, ft_signal);
-	signal(SIGQUIT, ft_signal);
 	input = 0;
 	while (1)
 	{
@@ -88,6 +66,13 @@ int	main(int argc, char **argv, char **envp)
 		}
 		free(input);
 	}
+}
+
+static void	free_env(void)
+{
+	t_env			*curr_env;
+	t_env			*temp_env;
+
 	curr_env = g_uni.env_list;
 	while (curr_env != 0)
 	{
@@ -99,6 +84,28 @@ int	main(int argc, char **argv, char **envp)
 		curr_env = curr_env->next;
 		free(temp_env);
 	}
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	struct termios	old_term;
+	struct termios	new_term;
+
+	if (argc == 0 || argv == 0)
+		return (0);
+	ft_init_uni();
+	ft_env(envp);
+	tcgetattr(0, &old_term);
+	tcgetattr(0, &new_term);
+	new_term.c_lflag &= ~(ICANON | ECHOCTL);
+	new_term.c_cc[VMIN] = 1;
+	new_term.c_cc[VTIME] = 0;
+	tcsetattr(0, TCSANOW, &new_term);
+	signal(SIGINT, ft_signal);
+	signal(SIGTSTP, ft_signal);
+	signal(SIGQUIT, ft_signal);
+	infinite_main_loop(new_term);
+	free_env();
 	tcsetattr(0, TCSANOW, &old_term);
 	return (g_uni.exit_status);
 }

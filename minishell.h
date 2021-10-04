@@ -66,9 +66,6 @@ typedef struct s_uni
 
 t_uni	g_uni;
 
-/* main.c */
-void		ft_error(int exit_status);
-
 /* ft_syntax_checker.c */
 int			ft_syntax_checker(char *input);
 
@@ -133,7 +130,8 @@ int			ft_isalpha(int c);
 int			ft_isdigit(int c);
 char		*ft_strdup(const char *s1);
 int			is_contain(char *str, char c);
-void		util_export(t_env *min, int fd);
+void		ft_error(int exit_status);
+
 
 /* ft_export.c */
 int			ft_export(t_parser *curr_parser);
@@ -148,6 +146,7 @@ int			check_export_valid(char *str);
 
 /* ft_export3.c */
 int			handle_is_equal(char *str, t_env *tmp);
+void		util_export(t_env *min, int fd);
 
 /* ft_unset.c */
 int			ft_unset(t_parser *parser);

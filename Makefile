@@ -12,8 +12,18 @@ LDFLAGS="-L/usr/local/opt/readline/lib"
 CPPFLAGS="-I/usr/local/opt/readline/include"
 INCLUDES=./
 
+.PHONY : all clean fclean re
+
 all: $(NAME)
 
-$(NAME): $(SRCS)
+$(NAME): $(OBJS)
 # gcc -I. $(FLAGS) $(SRCS) -o $(NAME) -lreadline -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include
 	gcc -I. $(FLAGS) $(SRCS) -o $(NAME) -lreadline $(CPPFLAGS) $(LDFLAGS)
+
+clean :
+	rm -f *.o
+
+fclean : clean
+	rm -f $(NAME)
+
+re : fclean all
