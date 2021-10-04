@@ -9,7 +9,10 @@ t_lexer	*delete_red(t_parser *curr_parser, t_lexer *curr_lexer)
 	{
 		if (g_uni.lexer_list == curr_lexer)
 			g_uni.lexer_list = curr_lexer->next->next;
-		curr_parser->start = curr_lexer->next->next;
+		if (curr_parser->end != curr_lexer->next->next)
+			curr_parser->start = curr_lexer->next->next;
+		else
+			curr_parser->start = 0;
 	}
 	else
 	{
@@ -18,8 +21,10 @@ t_lexer	*delete_red(t_parser *curr_parser, t_lexer *curr_lexer)
 			temp = temp->next;
 		temp->next = curr_lexer->next->next;
 	}
-	if (curr_parser->end == curr_lexer->next->next)
-		curr_parser->end = temp;
+	if (curr_parser->end == curr_lexer->next->next && temp == 0)
+		curr_parser->end = 0;
+	else if (curr_parser->end == curr_lexer->next->next)
+		curr_parser->end = temp->next;
 	temp = curr_lexer->next->next;
 	free(curr_lexer->next->str);
 	free(curr_lexer->next);
@@ -69,39 +74,26 @@ int	handle_heredoc(t_parser *curr_parser, t_lexer *curr_lexer)
 {
 	char		*input;
 	t_parser	*new;
-	int			curr_pid;
-	int			child_stat;
 
-	curr_pid = fork();
-	if (curr_pid == 0)
+	while (1)
 	{
-		while (1)
-		{
-			input = readline("> ");
-			if (!input || ft_strcmp(input, curr_lexer->next->str) == 0)
-				break ;
-			write(curr_parser->pipe[1], input, ft_strlen(input));
-			write(curr_parser->pipe[1], "\n", 1);
-			free(input);
-		}
+		input = readline("> ");
+		if (!input || ft_strcmp(input, curr_lexer->next->str) == 0)
+			break ;
+		write(curr_parser->pipe[1], input, ft_strlen(input));
+		write(curr_parser->pipe[1], "\n", 1);
 		free(input);
-		exit(0);
 	}
-	else
-	{
-		curr_parser->pid = curr_pid;
-		waitpid(curr_pid, &child_stat, 0);
-		delete_red(curr_parser, curr_lexer);
-		new = new_parser();
-		new->start = curr_parser->start;
-		new->end = curr_parser->end;
-		new->next = curr_parser->next;
-		new->fd_in = curr_parser->fd_in;
-		new->fd_out = curr_parser->fd_out;
-		curr_parser->next = new;
-		curr_parser->pid = -1;
-		return (2);
-	}
+	free(input);
+	delete_red(curr_parser, curr_lexer);
+	new = new_parser();
+	new->start = curr_parser->start;
+	new->end = curr_parser->end;
+	new->next = curr_parser->next;
+	new->fd_in = curr_parser->fd_in;
+	new->fd_out = curr_parser->fd_out;
+	curr_parser->next = new;
+	return (2);
 }
 
 int	ft_check_red(t_parser *curr_parser)

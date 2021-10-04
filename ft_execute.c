@@ -66,6 +66,8 @@ void	handle_child(t_parser *curr_parser, int prev_in)
 {
 	int	ret;
 
+	if (curr_parser->start == curr_parser->end)
+		exit(0);
 	if (curr_parser->next == 0 && ft_is_builtin(curr_parser) && \
 	g_uni.parser_list->start == curr_parser->start)
 		ret = 0;
@@ -143,6 +145,7 @@ void	ft_execute(void)
 	t_parser	*curr_parser;
 	pid_t		curr_pid;
 	int			prev_in;
+
 	curr_parser = g_uni.parser_list;
 	prev_in = -1;
 	while (curr_parser != 0)
