@@ -37,11 +37,8 @@ int	ft_reset_uni(void)
 	return (0);
 }
 
-static void infinite_main_loop(struct termios new_term)
+static void	infinite_main_loop(struct termios new_term, char *input)
 {
-	char	*input;
-
-	input = 0;
 	while (1)
 	{
 		new_term.c_lflag &= ~(ICANON | ECHOCTL);
@@ -104,7 +101,7 @@ int	main(int argc, char **argv, char **envp)
 	signal(SIGINT, ft_signal);
 	signal(SIGTSTP, ft_signal);
 	signal(SIGQUIT, ft_signal);
-	infinite_main_loop(new_term);
+	infinite_main_loop(new_term, 0);
 	free_env();
 	tcsetattr(0, TCSANOW, &old_term);
 	return (g_uni.exit_status);
