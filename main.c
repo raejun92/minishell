@@ -77,12 +77,11 @@ int	main(int argc, char **argv, char **envp)
 		new_term.c_lflag |= (ICANON | ECHOCTL);
 		tcsetattr(0, TCSANOW, &new_term);
 		g_uni.input = input;
-		add_history(input); // 출력한 문자열을 저장하여 방향키 up, down으로 확인 가능
+		add_history(input);
 		if (!ft_syntax_checker(input))
 		{
 			ft_lexer(input);
 			ft_parser();
-			//view_parser_list();
 			if (g_uni.parser_list != 0)
 				ft_execute();
 			ft_reset_uni();

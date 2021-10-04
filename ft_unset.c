@@ -6,7 +6,7 @@ int	check_unset_valid(char *str)
 
 	i = 0;
 	if (!(ft_isalpha(str[i]) || str[i] == '_'))
-			return (1);
+		return (1);
 	while (str[++i] != '\0')
 	{
 		if (!(ft_isalpha(str[i]) || str[i] == '_' || ft_isdigit(str[i])))
@@ -40,12 +40,13 @@ void	remove_env(char *str)
 
 int	ft_unset(t_parser *parser)
 {
-	t_lexer *curr_lexer;
+	t_lexer	*curr_lexer;
 
 	curr_lexer = parser->start->next;
 	while (curr_lexer != parser->end)
 	{
-		if (check_unset_valid(curr_lexer->str)) {
+		if (check_unset_valid(curr_lexer->str))
+		{
 			printf("bash: unset: `%s': not a valid identifier\n", \
 			curr_lexer->str);
 			return (1);

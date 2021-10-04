@@ -24,7 +24,7 @@ static void	handle_is_equal3(char *str, t_env *new, t_env *tmp)
 	}
 }
 
-static void handle_is_equal2(char *str, t_env *new, t_env *tmp)
+static void	handle_is_equal2(char *str, t_env *new, t_env *tmp)
 {
 	str[ft_strlen(str) - 1] = '\0';
 	if (check_export_key(str))

@@ -2,7 +2,7 @@
 
 void	init_env_check(void)
 {
-	t_env *tmp;
+	t_env	*tmp;
 
 	tmp = g_uni.env_list;
 	while (tmp != 0)
@@ -48,7 +48,6 @@ int	handle_is_not_equal(char *str)
 	t_env	*new;
 
 	tmp = g_uni.env_list;
-	
 	if (check_export_valid(str))
 	{
 		printf("bash: export: `%s': not a valid identifier\n", str);
@@ -75,7 +74,7 @@ int	check_export_valid(char *str)
 	i = 0;
 	if (!(ft_isalpha(str[i]) || str[i] == '_' || str[i] == '/' || \
 	str[i] == '.' || str[i] == ':'))
-			return (1);
+		return (1);
 	while (str[++i] != '\0')
 	{
 		if (!(ft_isalpha(str[i]) || str[i] == '_' || ft_isdigit(str[i]) || \

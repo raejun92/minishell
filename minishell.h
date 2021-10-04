@@ -14,6 +14,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <termios.h>
+# include <string.h>
 
 # define CMD 0
 # define ARG 1
@@ -37,8 +38,8 @@ typedef struct s_lexer
 
 typedef struct s_parser
 {
-	t_lexer 		*start;
-	t_lexer 		*end;
+	t_lexer			*start;
+	t_lexer			*end;
 	int				pipe[2];
 	int				fd_in;
 	int				fd_out;
@@ -151,7 +152,8 @@ int			handle_is_equal(char *str, t_env *tmp);
 /* ft_unset.c */
 int			ft_unset(t_parser *parser);
 
-void	ft_signal(int signum);
+/* ft_signal.c */
+void		ft_signal(int signum);
 
 /* ft_execve.c */
 int			ft_execve(t_parser *curr_parser);
@@ -161,8 +163,8 @@ char		**ft_split(char const *s, char c);
 char		**free_double_pointer(char **str);
 
 /* ft_execve.c */
-char 		*get_file(char *cmd);
-char 		**get_argv(t_lexer *curr_lexer, t_lexer *end_lexer, int i);
+char		*get_file(char *cmd);
+char		**get_argv(t_lexer *curr_lexer, t_lexer *end_lexer, int i);
 char		**get_envp(void);
 
 #endif

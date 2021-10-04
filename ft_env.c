@@ -2,7 +2,7 @@
 
 t_env	*new_env(void)
 {
-	t_env *env;
+	t_env	*env;
 
 	env = (t_env *)malloc(sizeof(t_env) * 1);
 	env->key = NULL;

@@ -1,6 +1,5 @@
 #include "minishell.h"
 
-// 기능: env에서 환경변수를 모두 검사헀는지 확인, 리턴: int(남아있으면 1 다 검사했으면 0)
 static int	check_env(void)
 {
 	t_env	*tmp;
@@ -15,7 +14,6 @@ static int	check_env(void)
 	return (0);
 }
 
-// 기능: envp 문자열 오름차순의 맨뒤 key값, 리턴: char *(key값)
 static char	*find_envp_max(void)
 {
 	t_env	*tmp;
@@ -32,7 +30,6 @@ static char	*find_envp_max(void)
 	return (max);
 }
 
-// 기능: env의 check변수를 1로 바꿈, 리턴: void
 static void	input_env_check(t_env *tmp, char *min)
 {
 	while (tmp != 0)
@@ -43,7 +40,6 @@ static void	input_env_check(t_env *tmp, char *min)
 	}
 }
 
-//기능: env를 문자열 오름차순으로 출력, 리턴: int(0)
 int	print_export(t_parser *curr_parser)
 {
 	t_env	*tmp;

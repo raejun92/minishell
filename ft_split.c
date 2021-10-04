@@ -66,18 +66,19 @@ char	**ft_split(char const *s, char c)
 	if (!s)
 		return (0);
 	word_cnt = cnt_word(s, c);
-	if (!(str = (char **)malloc(sizeof(char *) * (word_cnt + 1))))
+	str = malloc(sizeof(char *) * (word_cnt + 1));
+	if (!str)
 		return (0);
 	str_point = (char *)s;
 	str_len = 0;
-	i = 0;
-	while (i < word_cnt)
+	i = -1;
+	while (++i < word_cnt)
 	{
 		str_point_len(&str_point, &str_len, c);
-		if (!(str[i] = (char *)malloc(sizeof(char) * (str_len + 1))))
+		str[i] = malloc(sizeof(char) * (str_len + 1));
+		if (!str[i])
 			return (free_double_pointer(str));
 		ft_strlcpy(str[i], str_point, str_len + 1);
-		i++;
 	}
 	str[i] = 0;
 	return (str);

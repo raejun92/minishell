@@ -71,7 +71,7 @@ void	ft_parser(void)
 				cur_lexer = cur_lexer->next;
 		parser->end = cur_lexer->next;
 		if (i != parser_cnt)
-			cur_lexer = cur_lexer->next->next; // pipe위치에서 한 번 이동
+			cur_lexer = cur_lexer->next->next;
 		add_parser(parser);
 	}
 }

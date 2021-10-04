@@ -1,7 +1,6 @@
 #include "minishell.h"
 
-// 기능: path경로에 +/ +cmd, 리턴: char*(path/cmd)
-static char *join_cmd(char *path, char *cmd)
+static char	*join_cmd(char *path, char *cmd)
 {
 	char	*path_tmp;
 	char	*cmd_tmp;
@@ -23,8 +22,7 @@ static char *join_cmd(char *path, char *cmd)
 	return (rst);
 }
 
-// 기능: 명령어가 존재하는 파일 위치를 찾아서 반환, 리턴: char*(명령어 파일위치 or 명령어)
-char *get_file(char *cmd)
+char	*get_file(char *cmd)
 {
 	t_env		*env_path;
 	char		**path;
@@ -33,14 +31,15 @@ char *get_file(char *cmd)
 	struct stat	s_stat;
 
 	if (is_contain(cmd, '/'))
-		return cmd;
+		return (cmd);
 	env_path = get_env("PATH");
 	path = ft_split(env_path->val, ':');
 	path_tmp = path;
 	while (*path != 0)
 	{
 		path_cmd = join_cmd(*path, cmd);
-		if (stat(path_cmd, &s_stat) != -1) {
+		if (stat(path_cmd, &s_stat) != -1)
+		{
 			free_double_pointer(path_tmp);
 			return (path_cmd);
 		}
@@ -52,8 +51,7 @@ char *get_file(char *cmd)
 	return (cmd);
 }
 
-// 기능: 입력한 명령어를 char **로 변환, 리턴: char**(입력 명령어)
-char **get_argv(t_lexer *curr_lexer, t_lexer *end_lexer, int i)
+char	**get_argv(t_lexer *curr_lexer, t_lexer *end_lexer, int i)
 {
 	char	**str;
 	t_lexer	*tmp;
@@ -96,7 +94,6 @@ static void	combine_key_val(char **envp, char *key, char *val)
 	*envp = ft_strjoin(key_tmp, val_tmp);
 }
 
-// 기능: env_list를 원래의 envp형태로 변환, 리턴: char**(env_list)
 char	**get_envp(void)
 {
 	t_env	*tmp;
