@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: suko <suko@student.42seoul.kr>             +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2021/10/05 19:56:50 by suko              #+#    #+#              #
+#    Updated: 2021/10/05 19:56:57 by suko             ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME=minishell
 SRCS=main.c ft_lexer.c ft_tokenizer.c ft_parser.c \
 ft_syntax_checker.c ft_execute.c ft_env.c ft_utils.c ft_pwd.c \

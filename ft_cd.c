@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_cd.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: suko <suko@student.42seoul.kr>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/05 19:55:07 by suko              #+#    #+#             */
+/*   Updated: 2021/10/05 20:10:41 by suko             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 char	*concat_path(char *curr_path, char *rel_path)
@@ -66,6 +78,8 @@ static int	handle_home(t_parser *curr_parser, t_lexer *curr_lexer)
 	char	*home_path;
 	int		ret;
 
+	if (get_env("HOME") == 0)
+		return (0);
 	if (curr_lexer == curr_parser->end)
 		home_path = concat_path(get_env("HOME")->val, "");
 	else
