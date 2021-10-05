@@ -99,7 +99,6 @@ int	main(int argc, char **argv, char **envp)
 	new_term.c_cc[VTIME] = 0;
 	tcsetattr(0, TCSANOW, &new_term);
 	signal(SIGINT, ft_signal);
-	signal(SIGTSTP, ft_signal);
 	signal(SIGQUIT, ft_signal);
 	infinite_main_loop(new_term, 0);
 	free_env();

@@ -4,27 +4,17 @@ t_lexer	*delete_red(t_parser *curr_parser, t_lexer *curr_lexer)
 {
 	t_lexer	*temp;
 
-	temp = 0;
-	if (curr_parser->start == curr_lexer)
-	{
-		if (g_uni.lexer_list == curr_lexer)
-			g_uni.lexer_list = curr_lexer->next->next;
-		if (curr_parser->end != curr_lexer->next->next)
-			curr_parser->start = curr_lexer->next->next;
-		else
-			curr_parser->start = 0;
-	}
+	if (g_uni.lexer_list == curr_lexer)
+		g_uni.lexer_list = curr_lexer->next->next;
 	else
 	{
-		temp = curr_parser->start;
+		temp = g_uni.lexer_list;
 		while (temp->next != curr_lexer)
 			temp = temp->next;
 		temp->next = curr_lexer->next->next;
 	}
-	if (curr_parser->end == curr_lexer->next->next && temp == 0)
-		curr_parser->end = 0;
-	else if (curr_parser->end == curr_lexer->next->next)
-		curr_parser->end = temp->next;
+	if (curr_parser->start == curr_lexer)
+		curr_parser->start = curr_lexer->next->next;
 	temp = curr_lexer->next->next;
 	free(curr_lexer->next->str);
 	free(curr_lexer->next);
@@ -103,7 +93,7 @@ int	ft_check_red(t_parser *curr_parser)
 
 	curr_lexer = curr_parser->start;
 	ret = 0;
-	while (curr_lexer != curr_parser->end)
+	while (curr_lexer != 0 && curr_lexer != curr_parser->end)
 	{
 		if (curr_lexer->type == RED)
 		{

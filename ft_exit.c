@@ -26,20 +26,17 @@ static int	is_in_range(char *str)
 	flag = 1;
 	i = 0;
 	num = 0;
-	if (str[i] == '-')
+	if (str[i] == '-' || str[i] == '+')
 	{
-		flag = -1;
+		if (str[i] == '-')
+			flag = -1;
 		i++;
 	}
-	else if (str[i] == '+')
-		i++;
 	while (str[i] != '\0')
 	{
 		temp = (num * 10 + (flag) * (str[i] - '0'));
 		i++;
-		if (flag == -1 && temp > num)
-			return (0);
-		else if (flag == 1 && temp < num)
+		if ((flag == -1 && temp > num) || (flag == 1 && temp < num))
 			return (0);
 		else
 			num = temp;
@@ -63,13 +60,21 @@ static long long	stoll(char *str)
 	}
 	else if (str[i] == '+')
 		i++;
-	
 	while (str[i] != '\0')
 	{
 		num = (num * 10 + (flag) * (str[i] - '0'));
 		i++;
 	}
 	return (num);
+}
+
+static int	exit_non_numeric(t_lexer *curr_lexer)
+{
+	printf("exit\n");
+	ft_print_error(2, "exit", curr_lexer->str, \
+	"numeric argument required");
+	exit(255);
+	return (255);
 }
 
 int	ft_exit(t_parser *curr_parser)
@@ -84,13 +89,7 @@ int	ft_exit(t_parser *curr_parser)
 		if (curr_lexer->type != CMD)
 		{
 			if (!is_digit(curr_lexer->str) || !is_in_range(curr_lexer->str))
-			{
-				printf("exit\n");
-				ft_print_error(2, "exit", curr_lexer->str, \
-		"numeric argument required");
-				exit(255);
-				return (255);
-			}
+				return (exit_non_numeric(curr_lexer));
 			status = (unsigned char)stoll(curr_lexer->str);
 			break ;
 		}

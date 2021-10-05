@@ -1,32 +1,5 @@
 #include "minishell.h"
 
-void set_pwd(char *type)
-{
-	t_env	*new;
-	t_env	*tmp;
-	char	*path;
-
-	path = getcwd(NULL, 0);
-	tmp = g_uni.env_list;
-	if (check_export_key(type))
-	{
-		new = get_env(type);
-		free(new->val);
-		new->val = ft_strdup(path);
-		free(path);
-	}
-	else
-	{
-		new = new_env();
-		new->key = ft_strdup(type);
-		new->val = ft_strdup(path);
-		while (tmp->next != NULL)
-			tmp = tmp->next;
-		tmp->next = new;
-		free(path);
-	}
-}
-
 char	*concat_path(char *curr_path, char *rel_path)
 {
 	char	*new_path;
@@ -51,10 +24,23 @@ char	*concat_path(char *curr_path, char *rel_path)
 	return (new_path);
 }
 
+static int	handle_absolute(t_lexer *curr_lexer, char *path)
+{
+	if (chdir(path) == -1)
+	{
+		ft_print_error(2, "cd", curr_lexer->str, \
+	strerror(errno));
+		return (1);
+	}
+	set_pwd("PWD");
+	return (0);
+}
+
 static int	handle_relative(t_lexer *curr_lexer)
 {
 	char	*curr_path;
 	char	*new_path;
+	int		ret;
 
 	curr_path = getcwd(NULL, 0);
 	if (!curr_path)
@@ -69,58 +55,37 @@ static int	handle_relative(t_lexer *curr_lexer)
 		free(curr_path);
 		return (1);
 	}
-	if (chdir(new_path) == -1)
-	{
-		ft_print_error(2, "cd", curr_lexer->str, \
-	strerror(errno));
-		free(curr_path);
-		free(new_path);
-		return (1);
-	}
+	ret = handle_absolute(curr_lexer, new_path);
 	free(curr_path);
 	free(new_path);
-	set_pwd("PWD");
-	return (0);
+	return (ret);
 }
 
-static int	handle_absolute(t_lexer *curr_lexer)
+static int	handle_home(t_parser *curr_parser, t_lexer *curr_lexer)
 {
-	if (chdir(curr_lexer->str) == -1)
-	{
-		ft_print_error(2, "cd", curr_lexer->str, \
-	strerror(errno));
-		return (1);
-	}
-	set_pwd("PWD");
-	return (0);
+	char	*home_path;
+	int		ret;
+
+	if (curr_lexer == curr_parser->end)
+		home_path = concat_path(get_env("HOME")->val, "");
+	else
+		home_path = concat_path(get_env("HOME")->val, \
+		&curr_lexer->str[1]);
+	ret = handle_absolute(curr_lexer, home_path);
+	free(home_path);
+	return (ret);
 }
 
 int	ft_cd(t_parser *curr_parser)
 {
 	t_lexer	*curr_lexer;
-	char	*home_path;
 
 	curr_lexer = curr_parser->start;
 	set_pwd("OLDPWD");
-	if (curr_lexer->next == curr_parser->end ||
+	if (curr_lexer->next == curr_parser->end || \
 		(curr_lexer->next->str[0] == '~' && \
 		(curr_lexer->next->str[1] == '\0' || curr_lexer->next->str[1] == '/')))
-	{
-		if (curr_lexer->next == curr_parser->end)
-			home_path = concat_path(get_env("HOME")->val, "");
-		else
-			home_path = concat_path(get_env("HOME")->val, &curr_lexer->next->str[1]);
-		if (chdir(home_path) == -1)
-		{
-			ft_print_error(2, "cd", curr_lexer->str, \
-		strerror(errno));
-			free(home_path);
-			return (1);
-		}
-		free(home_path);
-		set_pwd("PWD");
-		return (0);
-	}
+		return (handle_home(curr_parser, curr_lexer->next));
 	while (curr_lexer->next != 0)
 	{
 		if (curr_lexer->type != CMD)
@@ -128,7 +93,7 @@ int	ft_cd(t_parser *curr_parser)
 		curr_lexer = curr_lexer->next;
 	}
 	if ((curr_lexer->str)[0] == '/')
-		return (handle_absolute(curr_lexer));
+		return (handle_absolute(curr_lexer, curr_lexer->str));
 	else
 		return (handle_relative(curr_lexer));
 }

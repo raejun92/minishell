@@ -104,6 +104,7 @@ int			print_env(t_parser *parser);
 
 /* ft_pwd.c */
 int			print_pwd(void);
+void		set_pwd(char *type);
 
 /* ft_exit c */
 int			ft_exit(t_parser *curr_parser);
@@ -131,7 +132,6 @@ int			ft_isdigit(int c);
 char		*ft_strdup(const char *s1);
 int			is_contain(char *str, char c);
 void		ft_error(int exit_status);
-
 
 /* ft_export.c */
 int			ft_export(t_parser *curr_parser);
@@ -165,5 +165,8 @@ char		**free_double_pointer(char **str);
 char		*get_file(char *cmd);
 char		**get_argv(t_lexer *curr_lexer, t_lexer *end_lexer, int i);
 char		**get_envp(void);
+
+/* ft_check_stat.c */
+int			ft_check_stat(t_parser *curr_parser);
 
 #endif
