@@ -6,7 +6,7 @@
 /*   By: suko <suko@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 19:55:33 by suko              #+#    #+#             */
-/*   Updated: 2021/10/05 19:55:35 by suko             ###   ########.fr       */
+/*   Updated: 2021/10/05 20:42:53 by suko             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,11 @@ void	handle_child(t_parser *curr_parser, int prev_in)
 	exit(ret);
 }
 
-void	handle_parent(t_parser *curr_parser, int *prev_in, \
-int wait)
+void	handle_parent(t_parser *curr_parser, int *prev_in)
 {
 	int			child_stat;
 
-	if (wait)
+	if (curr_parser->pid != 0)
 	{
 		if (curr_parser->next == 0 && ft_is_builtin(curr_parser) && \
 		g_uni.parser_list->start == curr_parser->start)
@@ -134,9 +133,10 @@ void	ft_execute(void)
 			if (curr_pid == 0)
 				handle_child(curr_parser, prev_in);
 			curr_parser->pid = curr_pid;
-			handle_parent(curr_parser, &prev_in, 1);
 		}
-		handle_parent(curr_parser, &prev_in, 0);
+		else if (curr_parser->next == 0)
+			g_uni.exit_status = 1;
+		handle_parent(curr_parser, &prev_in);
 		curr_parser = curr_parser->next;
 	}
 	handle_remain();
