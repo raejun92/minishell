@@ -17,11 +17,13 @@ int	check_unset_valid(char *str)
 	int	i;
 
 	i = 0;
-	if (!(ft_isalpha(str[i]) || str[i] == '_'))
+	if (!(ft_isalpha(str[i]) || str[i] == '_' || str[i] == '/' || \
+	str[i] == '.' || str[i] == ':'))
 		return (1);
 	while (str[++i] != '\0')
 	{
-		if (!(ft_isalpha(str[i]) || str[i] == '_' || ft_isdigit(str[i])))
+		if (!(ft_isalpha(str[i]) || str[i] == '_' || ft_isdigit(str[i]) || \
+		str[i] == '/' || str[i] == '.' || str[i] == ':'))
 			return (1);
 	}
 	return (0);
@@ -40,10 +42,12 @@ void	remove_env(char *str)
 		{
 			tmp = curr_env;
 			prev_env->next = curr_env->next;
+			curr_env = tmp->next;
 			free(tmp->key);
 			free(tmp->val);
 			free(tmp);
 			tmp = 0;
+			return ;
 		}
 		prev_env = curr_env;
 		curr_env = curr_env->next;

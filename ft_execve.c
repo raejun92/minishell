@@ -42,7 +42,7 @@ char	*get_file(char *cmd)
 	char		*path_cmd;
 	struct stat	s_stat;
 
-	if (is_contain(cmd, '/'))
+	if (is_contain(cmd, '/') || get_env("PATH") == 0)
 		return (cmd);
 	env_path = get_env("PATH");
 	path = ft_split(env_path->val, ':');

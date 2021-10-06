@@ -74,7 +74,6 @@ void	handle_parent(t_parser *curr_parser, int *prev_in)
 			child_stat = ft_execute_builtin(curr_parser);
 			g_uni.exit_status = child_stat;
 		}
-		return ;
 	}
 	*prev_in = curr_parser->pipe[0];
 	close(curr_parser->pipe[1]);

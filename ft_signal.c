@@ -26,10 +26,7 @@ void	sigint_handler(void)
 	rl_replace_line("", 0);
 	printf("\n");
 	if (g_uni.parser_list == 0)
-	{
-		g_uni.exit_status = 1;
 		rl_on_new_line();
-	}
 	rl_redisplay();
 }
 
@@ -38,12 +35,6 @@ void	sigquit_handler(void)
 	t_parser	*curr_parser;
 
 	curr_parser = g_uni.parser_list;
-	if (g_uni.parser_list == 0)
-	{
-		rl_on_new_line();
-		rl_redisplay();
-		return ;
-	}
 	while (curr_parser != 0)
 	{
 		if (curr_parser->pid != 0)

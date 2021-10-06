@@ -21,24 +21,29 @@ int	check_format(struct stat sb, t_lexer *curr_lexer)
 	return (0);
 }
 
+int	check_empty(t_lexer *curr_lexer)
+{
+	ft_print_error(2, curr_lexer->str, 0, "command not found");
+	return (127);
+}
+
 int	ft_check_stat(t_parser *curr_parser)
 {
 	t_lexer			*curr_lexer;
 	struct stat		sb;
 
 	curr_lexer = curr_parser->start;
+	if (ft_strlen(curr_lexer->str) == 0)
+		return (check_empty(curr_lexer));
 	if (stat(get_file(curr_lexer->str), &sb) == -1)
 	{
-		if (errno == ENOENT && !is_contain(get_file(curr_lexer->str), '/'))
+		if (!is_contain(get_file(curr_lexer->str), '/'))
 		{
 			ft_print_error(2, curr_lexer->str, 0, "command not found");
 			return (127);
 		}
 		ft_print_error(2, curr_lexer->str, 0, strerror(errno));
-		if (errno == EFAULT)
-			return (126);
-		else
-			return (127);
+		return (127);
 	}
 	if ((sb.st_mode & S_IXUSR) == 0 && curr_lexer->str[0] == '.')
 	{
