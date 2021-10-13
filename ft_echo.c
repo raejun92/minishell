@@ -16,6 +16,10 @@ static int	is_only_contain(char *str, char c, int start)
 {
 	int	i;
 
+	if (str[0] != '-')
+		return (0);
+	if (str[1] != c)
+		return (0);
 	i = start - 1;
 	while (str[++i] != '\0')
 	{
