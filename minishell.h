@@ -6,7 +6,7 @@
 /*   By: suko <suko@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 19:56:55 by suko              #+#    #+#             */
-/*   Updated: 2021/10/05 19:56:57 by suko             ###   ########.fr       */
+/*   Updated: 2021/10/13 21:28:52 by suko             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,5 +180,9 @@ char		**get_envp(void);
 
 /* ft_check_stat.c */
 int			ft_check_stat(t_parser *curr_parser);
+
+/* main.c */
+void		free_env(void);
+int			ft_reset_uni(void);
 
 #endif

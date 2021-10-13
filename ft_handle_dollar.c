@@ -6,7 +6,7 @@
 /*   By: suko <suko@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 19:56:00 by suko              #+#    #+#             */
-/*   Updated: 2021/10/05 19:56:57 by suko             ###   ########.fr       */
+/*   Updated: 2021/10/13 21:25:13 by suko             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	count_dollar(char *input, int start, int end)
 				dollar = i;
 		}
 	}
-	if (dollar >= 0)
+	if (dollar >= 0 && dollar != i - 1)
 		count += ft_strlen(get_val(input, dollar, i - 1)) - i + dollar;
 	return (count);
 }
@@ -108,6 +108,8 @@ void	ft_handle_dollar(char *out, char *in, int *out_idx, int *in_idx)
 		i++;
 	if (*in_idx == i - 1 && in[i] == '?')
 		val = get_val(in, *in_idx, i);
+	else if (*in_idx == i - 1)
+		val = ft_strdup("$");
 	else
 		val = get_val(in, *in_idx, i - 1);
 	j = -1;

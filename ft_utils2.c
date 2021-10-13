@@ -6,7 +6,7 @@
 /*   By: suko <suko@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 19:56:41 by suko              #+#    #+#             */
-/*   Updated: 2021/10/05 19:56:57 by suko             ###   ########.fr       */
+/*   Updated: 2021/10/13 21:28:01 by suko             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,5 +61,12 @@ char	*ft_strdup(const char *s1)
 
 void	ft_error(int exit_status)
 {
+	struct termios	new_term;
+
+	tcgetattr(0, &new_term);
+	new_term.c_lflag |= (ECHOCTL);
+	tcsetattr(0, TCSANOW, &new_term);
+	ft_reset_uni();
+	free_env();
 	exit(exit_status);
 }

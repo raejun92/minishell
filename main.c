@@ -6,7 +6,7 @@
 /*   By: suko <suko@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 19:56:46 by suko              #+#    #+#             */
-/*   Updated: 2021/10/05 19:56:57 by suko             ###   ########.fr       */
+/*   Updated: 2021/10/13 21:29:07 by suko             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void	infinite_main_loop(struct termios new_term, char *input)
 {
 	while (1)
 	{
-		new_term.c_lflag &= ~(ICANON | ECHOCTL);
+		new_term.c_lflag &= ~(ECHOCTL);
 		tcsetattr(0, TCSANOW, &new_term);
 		input = readline("minishell$ ");
 		if (!input)
@@ -61,7 +61,7 @@ static void	infinite_main_loop(struct termios new_term, char *input)
 			printf("\x1b[1A\033[11Cexit\n");
 			break ;
 		}
-		new_term.c_lflag |= (ICANON | ECHOCTL);
+		new_term.c_lflag |= (ECHOCTL);
 		tcsetattr(0, TCSANOW, &new_term);
 		g_uni.input = input;
 		add_history(input);
@@ -77,7 +77,7 @@ static void	infinite_main_loop(struct termios new_term, char *input)
 	}
 }
 
-static void	free_env(void)
+void	free_env(void)
 {
 	t_env			*curr_env;
 	t_env			*temp_env;
@@ -106,9 +106,7 @@ int	main(int argc, char **argv, char **envp)
 	ft_env(envp);
 	tcgetattr(0, &old_term);
 	tcgetattr(0, &new_term);
-	new_term.c_lflag &= ~(ICANON | ECHOCTL);
-	new_term.c_cc[VMIN] = 1;
-	new_term.c_cc[VTIME] = 0;
+	new_term.c_lflag &= ~(ECHOCTL);
 	tcsetattr(0, TCSANOW, &new_term);
 	signal(SIGINT, ft_signal);
 	signal(SIGQUIT, ft_signal);

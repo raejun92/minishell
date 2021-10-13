@@ -6,7 +6,7 @@
 /*   By: suko <suko@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 19:55:44 by suko              #+#    #+#             */
-/*   Updated: 2021/10/05 20:21:47 by suko             ###   ########.fr       */
+/*   Updated: 2021/10/13 21:26:31 by suko             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ static int	exit_non_numeric(t_lexer *curr_lexer)
 	printf("exit\n");
 	ft_print_error(2, "exit", curr_lexer->str, \
 	"numeric argument required");
-	exit(255);
+	ft_error(255);
 	return (255);
 }
 
@@ -114,7 +114,7 @@ int	ft_exit(t_parser *curr_parser)
 	if (curr_lexer == 0 || curr_lexer->next == 0)
 	{
 		printf("exit\n");
-		exit(status);
+		ft_error(status);
 	}
 	ft_print_error(2, "exit", 0, "too many arguments");
 	return (1);

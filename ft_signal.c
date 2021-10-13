@@ -6,7 +6,7 @@
 /*   By: suko <suko@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 19:56:16 by suko              #+#    #+#             */
-/*   Updated: 2021/10/05 19:56:57 by suko             ###   ########.fr       */
+/*   Updated: 2021/10/13 02:15:42 by suko             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	sigint_handler(void)
 	while (curr_parser != 0)
 	{
 		if (curr_parser->pid != 0)
-			kill(curr_parser->pid, SIGKILL);
+			kill(curr_parser->pid, SIGINT);
 		curr_parser = curr_parser->next;
 	}
 	rl_replace_line("", 0);
@@ -40,8 +40,8 @@ void	sigquit_handler(void)
 	curr_parser = g_uni.parser_list;
 	if (g_uni.parser_list == 0)
 	{
-		rl_on_new_line();
-		rl_redisplay();
+		//rl_on_new_line();
+		//rl_redisplay();
 		return ;
 	}
 	while (curr_parser != 0)
@@ -51,8 +51,6 @@ void	sigquit_handler(void)
 		curr_parser = curr_parser->next;
 	}
 	rl_replace_line("", 0);
-	if (g_uni.parser_list == 0)
-		rl_on_new_line();
 	rl_redisplay();
 }
 
