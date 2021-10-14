@@ -6,7 +6,7 @@
 /*   By: suko <suko@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 19:55:15 by suko              #+#    #+#             */
-/*   Updated: 2021/10/07 16:39:52 by suko             ###   ########.fr       */
+/*   Updated: 2021/10/14 12:31:51 by suko             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ int	handle_heredoc(t_parser *curr_parser, t_lexer *curr_lexer)
 	if (curr_parser->fd_in > 2)
 		close(curr_parser->fd_in);
 	new->fd_in = 0;
+	curr_parser->fd_out = 1;
 	new->fd_out = curr_parser->fd_out;
 	curr_parser->next = new;
 	return (2);
