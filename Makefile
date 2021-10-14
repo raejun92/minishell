@@ -6,7 +6,7 @@
 #    By: suko <suko@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/05 19:56:50 by suko              #+#    #+#              #
-#    Updated: 2021/10/05 19:56:57 by suko             ###   ########.fr        #
+#    Updated: 2021/10/14 12:15:52 by suko             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ ft_exit.c ft_export.c ft_export2.c ft_unset.c ft_utils2.c \
 ft_export3.c ft_cd.c ft_execve.c ft_split.c ft_signal.c \
 ft_check_stat.c
 
-OBJS=$(SRCS:.c=.o)
+#OBJS=$(SRCS:.c=.o)
 
 FLAGS=-Wall -Wextra -Werror
 LDFLAGS="-L/usr/local/opt/readline/lib"
@@ -29,9 +29,9 @@ INCLUDES=./
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
-# gcc -I. $(FLAGS) $(SRCS) -o $(NAME) -lreadline -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include
-	gcc -I. $(FLAGS) $(SRCS) -o $(NAME) -lreadline $(CPPFLAGS) $(LDFLAGS)
+$(NAME): $(SRCS)
+	gcc -I. $(FLAGS) $(SRCS) -o $(NAME) -lreadline -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include
+# gcc -I. $(FLAGS) $(SRCS) -o $(NAME) -lreadline $(CPPFLAGS) $(LDFLAGS)
 
 clean :
 	rm -f *.o
