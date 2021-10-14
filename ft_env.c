@@ -6,7 +6,7 @@
 /*   By: suko <suko@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 19:55:27 by suko              #+#    #+#             */
-/*   Updated: 2021/10/05 19:55:28 by suko             ###   ########.fr       */
+/*   Updated: 2021/10/14 13:43:00 by suko             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ void	ft_env(char **envp)
 		}
 		envp++;
 	}
+	handle_is_not_equal("OLDPWD");
 }
 
 int	print_env(t_parser *parser)

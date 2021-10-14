@@ -6,17 +6,17 @@
 /*   By: suko <suko@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 19:56:00 by suko              #+#    #+#             */
-/*   Updated: 2021/10/13 21:25:13 by suko             ###   ########.fr       */
+/*   Updated: 2021/10/14 13:20:49 by suko             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	is_delimiter(char c)
+static int	is_delimiter(char c, int i)
 {
 	if (c == '>' || c == '<' || c == '|' || c == ' ' || \
 	c == '\'' || c == '"' || c == '$' || c == '?' || c == '=' || \
-	c == '/')
+	c == '/' || (i == 1 && c >= '0' && c <= '9'))
 		return (1);
 	else
 		return (0);
@@ -54,7 +54,7 @@ static char	*get_val(char *input, int start, int end)
 	if (start < 0)
 		return (0);
 	i = -1;
-	if (input[end] == '?')
+	if (start == end - 1 && input[end] == '?')
 		return (get_exit_status());
 	key = malloc(sizeof(char) * (end - start + 1));
 	while (++i < end - start)
@@ -68,18 +68,16 @@ static char	*get_val(char *input, int start, int end)
 		return (curr_env->val);
 }
 
-int	count_dollar(char *input, int start, int end)
+int	count_dollar(char *input, int start, int end, int count)
 {
-	int		count;
 	int		i;
 	int		dollar;
 
-	count = 0;
 	dollar = -1;
 	i = start - 1;
 	while (++i <= end)
 	{
-		if (is_delimiter(input[i]))
+		if (is_delimiter(input[i], i - dollar))
 		{
 			if (dollar >= 0 && dollar != i - 1)
 				count += ft_strlen(get_val(input, dollar, i - 1)) - i + dollar;
@@ -87,6 +85,8 @@ int	count_dollar(char *input, int start, int end)
 				count += 1;
 			else if (dollar >= 0 && input[i] == '?' && g_uni.exit_status < 10)
 				count -= 1;
+			else if (dollar >= 0 && input[i] >= '0' && input[i] <= '9')
+				count += ft_strlen(get_val(input, dollar, i)) - i + dollar - 1;
 			dollar = -1;
 			if (input[i] == '$')
 				dollar = i;
@@ -104,9 +104,9 @@ void	ft_handle_dollar(char *out, char *in, int *out_idx, int *in_idx)
 	char	*val;
 
 	i = *in_idx + 1;
-	while (in[i] != '\0' && !is_delimiter(in[i]))
+	while (in[i] != '\0' && !is_delimiter(in[i], i - *in_idx))
 		i++;
-	if (*in_idx == i - 1 && in[i] == '?')
+	if (*in_idx == i - 1 && (in[i] == '?' || (in[i] >= '0' && in[i] <= '9')))
 		val = get_val(in, *in_idx, i);
 	else if (*in_idx == i - 1)
 		val = ft_strdup("$");
@@ -115,9 +115,10 @@ void	ft_handle_dollar(char *out, char *in, int *out_idx, int *in_idx)
 	j = -1;
 	while (++j < (int)ft_strlen(val))
 		out[j + *out_idx] = val[j];
-	if (*in_idx == i - 1 && in[i] == '?')
+	if (*in_idx == i - 1 && (in[i] == '?' || (in[i] >= '0' && in[i] <= '9')))
 	{
-		free(val);
+		if (in[i] == '?')
+			free(val);
 		*in_idx = i;
 	}
 	else

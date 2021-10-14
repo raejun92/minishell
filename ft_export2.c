@@ -6,7 +6,7 @@
 /*   By: suko <suko@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 19:55:52 by suko              #+#    #+#             */
-/*   Updated: 2021/10/05 19:56:57 by suko             ###   ########.fr       */
+/*   Updated: 2021/10/14 13:57:03 by suko             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,14 +84,12 @@ int	check_export_valid(char *str)
 	int	i;
 
 	i = 0;
-	if (!(ft_isalpha(str[i]) || str[i] == '_' || str[i] == '/' || \
-	str[i] == '.' || str[i] == ':'))
+	if (!(ft_isalpha(str[i]) || str[i] == '_'))
 		return (1);
-	while (str[++i] != '\0')
+	while (str[++i] != '\0' && str[i] != '=')
 	{
 		if (!(ft_isalpha(str[i]) || str[i] == '_' || ft_isdigit(str[i]) || \
-		str[i] == '=' || str[i] == '/' || str[i] \
-		== '.' || str[i] == ':'))
+		str[i] == '='))
 			return (1);
 	}
 	return (0);

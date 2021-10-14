@@ -6,7 +6,7 @@
 /*   By: suko <suko@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 19:56:37 by suko              #+#    #+#             */
-/*   Updated: 2021/10/05 19:56:57 by suko             ###   ########.fr       */
+/*   Updated: 2021/10/14 13:11:53 by suko             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	ft_strcmp(char *s1, char *s2)
 	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_strjoin(char *s1, char *s2, int s2st)
 {
 	char			*result;
 	unsigned int	i;
@@ -74,11 +74,11 @@ char	*ft_strjoin(char *s1, char *s2)
 		i++;
 	while (s2[j] != '\0')
 		j++;
-	result = malloc(sizeof(char) * (i + j + 1));
+	result = malloc(sizeof(char) * (i + j - s2st + 1));
 	if (result == 0)
 		return (0);
 	i = -1;
-	j = -1;
+	j = s2st - 1;
 	while (s1[++i] != '\0')
 		result[i] = s1[i];
 	while (s2[++j] != '\0')

@@ -6,7 +6,7 @@
 /*   By: suko <suko@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 19:56:29 by suko              #+#    #+#             */
-/*   Updated: 2021/10/12 18:30:10 by suko             ###   ########.fr       */
+/*   Updated: 2021/10/14 13:27:46 by suko             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,9 @@ static void	add_token(char *input, int start, int end, int quote)
 	else
 		len = end - start - 1;
 	if (quote != 1)
-		len += count_dollar(input, start, end);
+		len += count_dollar(input, start, end, 0);
+	if (len == 0 && quote % 3 == 0)
+		return ;
 	curr = new_lexer(1);
 	if (curr == 0)
 		return (ft_error(0));

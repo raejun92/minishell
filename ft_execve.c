@@ -6,7 +6,7 @@
 /*   By: suko <suko@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 19:55:38 by suko              #+#    #+#             */
-/*   Updated: 2021/10/05 19:56:57 by suko             ###   ########.fr       */
+/*   Updated: 2021/10/14 13:11:38 by suko             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static char	*join_cmd(char *path, char *cmd)
 	while (cmd[++i] != '\0')
 		cmd_tmp[i] = cmd[i];
 	cmd_tmp[i] = '\0';
-	rst = ft_strjoin(path_tmp, cmd_tmp);
+	rst = ft_strjoin(path_tmp, cmd_tmp, 0);
 	return (rst);
 }
 
@@ -103,7 +103,7 @@ static void	combine_key_val(char **envp, char *key, char *val)
 	key_tmp[i + 1] = '\0';
 	val_tmp = malloc(sizeof(char) * (ft_strlen(val) + 1));
 	ft_strlcpy(val_tmp, val, ft_strlen(val) + 1);
-	*envp = ft_strjoin(key_tmp, val_tmp);
+	*envp = ft_strjoin(key_tmp, val_tmp, 0);
 }
 
 char	**get_envp(void)

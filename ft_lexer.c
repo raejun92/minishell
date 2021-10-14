@@ -6,7 +6,7 @@
 /*   By: suko <suko@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 19:56:03 by suko              #+#    #+#             */
-/*   Updated: 2021/10/05 19:56:57 by suko             ###   ########.fr       */
+/*   Updated: 2021/10/14 13:25:57 by suko             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,17 @@ void	merge_lexer(void)
 		if (curr->connect == 1 && curr->next != 0)
 		{
 			temp = curr->next;
-			curr->str = ft_strjoin(curr->str, temp->str);
+			curr->str = ft_strjoin(curr->str, temp->str, 0);
 			curr->connect = temp->connect;
 			curr->next = temp->next;
 			free(temp);
+			continue ;
 		}
-		else
-			curr = curr->next;
+		if (curr->str[0] == '~' && curr->quote == 0 && \
+		(curr->str[1] == '/' || curr->str[1] == '\0') && get_env("HOME") != 0)
+			curr->str = ft_strjoin(ft_strdup(get_env("HOME")->val), \
+			curr->str, 1);
+		curr = curr->next;
 	}
 }
 

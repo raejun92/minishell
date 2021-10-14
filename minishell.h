@@ -6,7 +6,7 @@
 /*   By: suko <suko@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 19:56:55 by suko              #+#    #+#             */
-/*   Updated: 2021/10/13 21:28:52 by suko             ###   ########.fr       */
+/*   Updated: 2021/10/14 13:10:00 by suko             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void		view_parser_list(void);
 t_parser	*new_parser(void);
 
 /* ft_handle_dollar.c */
-int			count_dollar(char *input, int start, int end);
+int			count_dollar(char *input, int start, int end, int count);
 void		ft_handle_dollar(char *out, char *in, int *out_idx, int *in_idx);
 
 /* ft_check_red.c */
@@ -135,7 +135,7 @@ void		set_export(void);
 size_t		ft_strlen(const char *s);
 size_t		ft_strlcpy(char *dst, const char *src, size_t dstsize);
 int			ft_strcmp(char *s1, char *s2);
-char		*ft_strjoin(char *s1, char *s2);
+char		*ft_strjoin(char *s1, char *s2, int s2st);
 void		ft_print_error(int fd, char *cmd, char *arg, char *msg);
 
 /* ft_utils2.c */
