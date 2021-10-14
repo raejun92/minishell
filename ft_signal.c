@@ -6,7 +6,7 @@
 /*   By: suko <suko@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 19:56:16 by suko              #+#    #+#             */
-/*   Updated: 2021/10/13 21:33:43 by suko             ###   ########.fr       */
+/*   Updated: 2021/10/14 15:56:36 by suko             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,11 @@ void	sigquit_handler(void)
 
 	curr_parser = g_uni.parser_list;
 	if (g_uni.parser_list == 0)
+	{
+		rl_on_new_line();
+		rl_redisplay();
 		return ;
+	}
 	while (curr_parser != 0)
 	{
 		if (curr_parser->pid != 0)
